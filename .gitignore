@@ -1,0 +1,17 @@
+# raw survey data: fetched by R/00_download_data.R (41 MB, FISHGLOB)
+data_raw/
+# run outputs (the pilot copies live under results/pilot and figures/pilot)
+results/*
+!results/pilot/
+figures/*
+!figures/pilot/
+logs/
+# large duplicates and build artefacts
+*.rds.tmp-*
+fit_metrics.rds
+node_modules/
+*.tar.gz
+# R session files
+.Rhistory
+.RData
+.Rproj.user/

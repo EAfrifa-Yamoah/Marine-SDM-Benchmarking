@@ -1,0 +1,12 @@
+Package: smdMetricHarmonise
+Type: Package
+Title: Harmonising Species Distribution Model Performance Metrics
+Version: 0.3.0
+Authors@R: person('Eben', 'Afrifa-Yamoah', role = c('aut', 'cre'),
+    email = 'e.afrifayamoah@ecu.edu.au')
+Description: Empirical translation between species distribution model performance metrics (AUC, TSS, Spearman, R2, RMSE, Brier) learned from a controlled benchmark across four marine survey datasets under data limited conditions. Provides a lookup that maps a value on one metric to the expected value on another, with a reliability classification indicating when a translation is trustworthy, context dependent or should be avoided. A translation is certified reliable only when the mapping is stable both across the inference target, that is interpolation against spatial extrapolation, and across the survey of origin. The survey stability check was added in 0.2.0. Version 0.3.0 returns translations among the coefficient of determination, root mean squared error and Brier score by identity when the evaluation prevalence is supplied, since R2 = 1 - Brier / (pi (1 - pi)) holds exactly, and warns when it is not; it also reports whether a learned class is stable under a cluster bootstrap over species.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 4.0)
+RoxygenNote: 7.2.3

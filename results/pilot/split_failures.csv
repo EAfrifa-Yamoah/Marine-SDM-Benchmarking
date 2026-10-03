@@ -1,0 +1,41 @@
+dataset,region,species,band,n,coverage,target,rep,reason
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,30,clustered,conditional,1,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,30,clustered,conditional,2,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,30,clustered,conditional,4,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,30,intermediate,conditional,1,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,30,intermediate,conditional,3,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,30,intermediate,conditional,4,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,50,intermediate,conditional,4,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,30,clustered,marginal,3,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,30,clustered,marginal,4,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,50,clustered,marginal,3,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,50,clustered,marginal,4,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,50,clustered,conditional,3,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,30,distributed,marginal,1,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,30,distributed,marginal,3,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,30,distributed,marginal,4,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,50,distributed,marginal,3,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,30,intermediate,marginal,3,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,50,intermediate,marginal,4,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,30,distributed,conditional,2,degenerate_occurrence
+EBS,"Eastern Bering Sea (Northeast Pacific, NOAA)",Careproctus rastrinus,rare,30,distributed,conditional,3,degenerate_occurrence
+GMEX,"Gulf of Mexico (subtropical, SEAMAP)",Etrumeus sadina,rare,30,intermediate,conditional,3,degenerate_occurrence
+GMEX,"Gulf of Mexico (subtropical, SEAMAP)",Etrumeus sadina,rare,30,distributed,marginal,4,degenerate_occurrence
+GMEX,"Gulf of Mexico (subtropical, SEAMAP)",Etrumeus sadina,rare,30,distributed,conditional,1,degenerate_occurrence
+GMEX,"Gulf of Mexico (subtropical, SEAMAP)",Etrumeus sadina,rare,30,distributed,conditional,2,degenerate_occurrence
+NEUS,"Northeast US shelf (Northwest Atlantic, NEFSC)",Myctophidae,rare,30,intermediate,marginal,1,degenerate_occurrence
+NEUS,"Northeast US shelf (Northwest Atlantic, NEFSC)",Hippoglossoides platessoides,intermediate,30,clustered,marginal,2,degenerate_occurrence
+NEUS,"Northeast US shelf (Northwest Atlantic, NEFSC)",Hippoglossoides platessoides,intermediate,100,clustered,marginal,1,degenerate_occurrence
+NEUS,"Northeast US shelf (Northwest Atlantic, NEFSC)",Hippoglossoides platessoides,intermediate,100,clustered,marginal,4,degenerate_occurrence
+NEUS,"Northeast US shelf (Northwest Atlantic, NEFSC)",Hippoglossoides platessoides,intermediate,200,clustered,marginal,1,degenerate_occurrence
+NEUS,"Northeast US shelf (Northwest Atlantic, NEFSC)",Hippoglossoides platessoides,intermediate,200,clustered,marginal,4,degenerate_occurrence
+NEUS,"Northeast US shelf (Northwest Atlantic, NEFSC)",Hippoglossoides platessoides,intermediate,30,intermediate,marginal,1,degenerate_occurrence
+NEUS,"Northeast US shelf (Northwest Atlantic, NEFSC)",Hippoglossoides platessoides,intermediate,30,intermediate,marginal,4,degenerate_occurrence
+NS-IBTS,"North Sea IBTS (Northeast Atlantic, ICES DATRAS)",Entelurus aequoreus,rare,30,intermediate,conditional,1,degenerate_occurrence
+NS-IBTS,"North Sea IBTS (Northeast Atlantic, ICES DATRAS)",Entelurus aequoreus,rare,30,intermediate,conditional,4,degenerate_occurrence
+NS-IBTS,"North Sea IBTS (Northeast Atlantic, ICES DATRAS)",Entelurus aequoreus,rare,30,clustered,marginal,1,degenerate_occurrence
+NS-IBTS,"North Sea IBTS (Northeast Atlantic, ICES DATRAS)",Entelurus aequoreus,rare,30,clustered,marginal,2,degenerate_occurrence
+NS-IBTS,"North Sea IBTS (Northeast Atlantic, ICES DATRAS)",Entelurus aequoreus,rare,30,clustered,marginal,4,degenerate_occurrence
+NS-IBTS,"North Sea IBTS (Northeast Atlantic, ICES DATRAS)",Entelurus aequoreus,rare,30,distributed,marginal,4,degenerate_occurrence
+NS-IBTS,"North Sea IBTS (Northeast Atlantic, ICES DATRAS)",Entelurus aequoreus,rare,30,intermediate,marginal,2,degenerate_occurrence
+NS-IBTS,"North Sea IBTS (Northeast Atlantic, ICES DATRAS)",Entelurus aequoreus,rare,30,intermediate,marginal,4,degenerate_occurrence

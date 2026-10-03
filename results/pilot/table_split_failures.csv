@@ -1,0 +1,11 @@
+band,n,coverage,n_fail
+intermediate,30,clustered,1
+intermediate,30,intermediate,2
+intermediate,100,clustered,2
+intermediate,200,clustered,2
+rare,30,clustered,8
+rare,30,intermediate,10
+rare,30,distributed,9
+rare,50,intermediate,2
+rare,50,clustered,3
+rare,50,distributed,1

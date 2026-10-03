@@ -1,0 +1,8 @@
+method,n,n_tie_affected,max_dev
+RF,1400,1450,0.355
+SpatialRF,1400,1450,0.355
+BRT,1398,1450,0.355
+MaxEntPO,1369,1450,0.355
+SpatialGAM,1376,1450,0.355
+GeostatGP,1380,1450,0.355
+JointSDM,1398,1450,0.355
