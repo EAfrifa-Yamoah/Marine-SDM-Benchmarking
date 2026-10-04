@@ -127,29 +127,29 @@ fit_MaxEntPO <- function(train, test, env_used, ...) {
 }
 
 # build an mgcv smooth formula from the available environmental predictors
-.gam_formula <- function(env_used, spatial = c("none", "tp", "gp")) {
+.gam_formula <- function(env_used, spatial = c("none", "tp", "gp"), n = Inf) {
   spatial <- match.arg(spatial)
-  ks <- min(8, 10)
-  env_terms <- sapply(env_used, function(v) sprintf("s(%s, k=6)", v))
+  # Basis dimensions are capped by the training sample size. The design
+  # values (k = 6 per covariate, k = 30 for the spatial smooth) exceed the
+  # data at the smallest sample sizes: 46 basis functions on 30 hauls.
+  # mgcv's compiled REML optimiser corrupts memory on some such draws
+  # (observed on mgcv 1.9-1 and 1.9-3; the process aborts rather than
+  # erroring), and a smooth with more knots than observations is in any
+  # case not identifiable. The cap leaves n >= 100 unchanged.
+  ke <- max(3L, min(6L,  floor(n / 8)))
+  ks <- max(5L, min(30L, floor(n / 3)))
+  env_terms <- sapply(env_used, function(v) sprintf("s(%s, k=%d)", v, ke))
   terms <- env_terms
-  if (spatial == "tp") terms <- c(terms, "s(lon, lat, k=30)")
-  if (spatial == "gp") terms <- c(terms, "s(lon, lat, bs='gp', k=30)")
+  if (spatial == "tp") terms <- c(terms, sprintf("s(lon, lat, k=%d)", ks))
+  if (spatial == "gp") terms <- c(terms, sprintf("s(lon, lat, bs='gp', k=%d)", ks))
   as.formula(paste("y ~", paste(terms, collapse = " + ")))
 }
 
 # --------------------------------------------------------- SpatialGAM ---
 fit_SpatialGAM <- function(train, test, env_used, ...) {
-  fm <- .gam_formula(env_used, spatial = "tp")
-  # The double penalty (select = TRUE) is the design's shrinkage choice and
-  # is kept, but at the smallest sample sizes it drives mgcv's compiled
-  # REML optimiser into a memory fault on rare draws (observed on mgcv 1.9-1
-  # and 1.9-3 for a 30 point draw with 3 presences), which kills the R
-  # process rather than raising an error. Below the cut off the same
-  # formula is fitted with the single penalty, which converges on those
-  # draws; the choice is recorded so the analysis can condition on it.
-  use_select <- nrow(train) >= 50
+  fm <- .gam_formula(env_used, spatial = "tp", n = nrow(train))
   m <- tryCatch(gam(fm, data = train, family = binomial(),
-                    method = "REML", select = use_select),
+                    method = "REML", select = TRUE),
                 error = function(e) NULL)
   if (is.null(m)) return(list(prob = rep(mean(train$y), nrow(test)),
                               prob_train = rep(mean(train$y), nrow(train)),
@@ -165,9 +165,12 @@ fit_SpatialGAM <- function(train, test, env_used, ...) {
 # sdmTMB GMRF. Fitted with bam and covariate discretisation so the dense
 # GP basis stays affordable at the sample sizes in the data limited range.
 fit_GeostatGP <- function(train, test, env_used, ...) {
-  env_terms <- sapply(env_used, function(v) sprintf("s(%s, k=6)", v))
+  # basis dimensions capped by sample size, as for the spatial GAM
+  n <- nrow(train)
+  ke <- max(3L, min(6L,  floor(n / 8))); ks <- max(5L, min(20L, floor(n / 3)))
+  env_terms <- sapply(env_used, function(v) sprintf("s(%s, k=%d)", v, ke))
   fm <- as.formula(paste("y ~",
-    paste(c(env_terms, "s(lon, lat, bs='gp', k=20)"), collapse = " + ")))
+    paste(c(env_terms, sprintf("s(lon, lat, bs='gp', k=%d)", ks)), collapse = " + ")))
   m <- tryCatch(bam(fm, data = train, family = binomial(),
                     discrete = TRUE, method = "fREML"),
                 error = function(e) NULL)

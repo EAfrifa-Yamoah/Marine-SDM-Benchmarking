@@ -52,6 +52,7 @@ for (task in tasks) {
   if (is.null(cache[[task$code]]))
     cache[[task$code]] <- readRDS(file.path(PATHS$processed, paste0(task$code, "_processed.rds")))
   t0 <- Sys.time()
+  logline("starting %s sp%d cell%d b%d", task$code, task$si, task$ci, task$b)
   out <- tryCatch(run_cell(task$code, task$di, task$si, task$ci, cache[[task$code]], reps = rep_blocks[[task$b]]),
                   error = function(e) { logline("CELL ERROR %s/%d/%d b%d: %s", task$code, task$si, task$ci, task$b, conditionMessage(e)); NULL })
   if (is.null(out)) next
