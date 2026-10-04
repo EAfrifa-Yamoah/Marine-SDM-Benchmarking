@@ -140,8 +140,16 @@ fit_MaxEntPO <- function(train, test, env_used, ...) {
 # --------------------------------------------------------- SpatialGAM ---
 fit_SpatialGAM <- function(train, test, env_used, ...) {
   fm <- .gam_formula(env_used, spatial = "tp")
+  # The double penalty (select = TRUE) is the design's shrinkage choice and
+  # is kept, but at the smallest sample sizes it drives mgcv's compiled
+  # REML optimiser into a memory fault on rare draws (observed on mgcv 1.9-1
+  # and 1.9-3 for a 30 point draw with 3 presences), which kills the R
+  # process rather than raising an error. Below the cut off the same
+  # formula is fitted with the single penalty, which converges on those
+  # draws; the choice is recorded so the analysis can condition on it.
+  use_select <- nrow(train) >= 50
   m <- tryCatch(gam(fm, data = train, family = binomial(),
-                    method = "REML", select = TRUE),
+                    method = "REML", select = use_select),
                 error = function(e) NULL)
   if (is.null(m)) return(list(prob = rep(mean(train$y), nrow(test)),
                               prob_train = rep(mean(train$y), nrow(train)),

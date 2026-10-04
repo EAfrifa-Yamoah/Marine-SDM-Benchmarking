@@ -23,6 +23,12 @@ dir.create(parts_dir, showWarnings = FALSE, recursive = TRUE)
 sel <- Sys.getenv("SMD_DATASETS", unset = "")
 ds_codes <- if (nzchar(sel)) trimws(strsplit(sel, ",")[[1]]) else names(DATASETS)
 
+# Each design cell is processed in blocks of replicates (SMD_REP_BLOCK, default
+# 25) and every block is checkpointed on its own, so that no single unit of
+# work is longer than a few minutes; a whole cell file from an earlier run
+# (cell_<code>_<si>_<ci>.rds) counts as all of its blocks done.
+REP_BLOCK <- as.integer(Sys.getenv("SMD_REP_BLOCK", unset = "25"))
+rep_blocks <- split(seq_len(N_REPLICATES), ceiling(seq_len(N_REPLICATES) / REP_BLOCK))
 species_per <- integer(0); tasks <- list(); k <- 0L
 for (code in ds_codes) {
   di <- match(code, names(DATASETS))
@@ -30,15 +36,18 @@ for (code in ds_codes) {
   if (!file.exists(pf)) { logline("MISSING processed %s; run 01_preprocess.R", code); next }
   nsp <- nrow(readRDS(pf)$species); species_per[code] <- nsp
   for (si in seq_len(nsp)) for (ci in seq_len(n_cells)) {
-    cf <- file.path(parts_dir, sprintf("cell_%s_%d_%d.rds", code, si, ci))
-    if (!file.exists(cf)) { k <- k + 1L; tasks[[k]] <- list(code = code, di = di, si = si, ci = ci) }
+    if (file.exists(file.path(parts_dir, sprintf("cell_%s_%d_%d.rds", code, si, ci)))) next
+    for (b in seq_along(rep_blocks)) {
+      cf <- file.path(parts_dir, sprintf("cell_%s_%d_%d_b%d.rds", code, si, ci, b))
+      if (!file.exists(cf)) { k <- k + 1L; tasks[[k]] <- list(code = code, di = di, si = si, ci = ci, b = b) }
+    }
   }
 }
-n_cells_total <- sum(species_per) * n_cells
-fits_per_cell <- N_REPLICATES * length(METHODS)
+n_cells_total <- sum(species_per) * n_cells * length(rep_blocks)   # task units (blocks)
+fits_per_cell <- REP_BLOCK * length(METHODS)
 logline("scale=%s | datasets=%s | cores=%d | reps=%d | methods=%d", SCALE,
         paste(ds_codes, collapse = ","), N_CORES, N_REPLICATES, length(METHODS))
-logline("cells total=%d | done=%d | pending=%d | fits at completion=%s",
+logline("replicate blocks total=%d | done=%d | pending=%d | fits at completion=%s",
         n_cells_total, n_cells_total - length(tasks), length(tasks),
         format(n_cells_total * fits_per_cell, big.mark = ","))
 maxc <- Sys.getenv("SMD_MAX_CELLS", unset = "")
@@ -46,19 +55,20 @@ if (nzchar(maxc) && length(tasks) > as.integer(maxc)) {
   tasks <- tasks[seq_len(as.integer(maxc))]; logline("SMD_MAX_CELLS: processing %d cells", length(tasks)) }
 
 process_task <- function(task) {
-  cf <- file.path(parts_dir, sprintf("cell_%s_%d_%d.rds", task$code, task$si, task$ci))
+  cf <- file.path(parts_dir, sprintf("cell_%s_%d_%d_b%d.rds", task$code, task$si, task$ci, task$b))
   if (file.exists(cf)) return(list(n_fits = 0L, n_fail = 0L, error = NA_character_))
+  reps <- rep_blocks[[task$b]]
   # an R error inside a cell is reported back rather than left to kill the
   # worker; the cell stays pending and is retried on the next run
   out <- tryCatch({
     r <- .smd_get_data(task$code)
-    o <- run_cell(task$code, task$di, task$si, task$ci, r)
+    o <- run_cell(task$code, task$di, task$si, task$ci, r, reps = reps)
     tmp <- paste0(cf, ".tmp-", Sys.getpid())
     saveRDS(list(fits = o$fits, fails = o$fails), tmp, compress = TRUE)
     file.rename(tmp, cf)
     list(n_fits = o$n_fits, n_fail = o$n_fail, error = NA_character_)
   }, error = function(e) list(n_fits = 0L, n_fail = 0L,
-                              error = sprintf("cell %s/%d/%d: %s", task$code, task$si, task$ci, conditionMessage(e))))
+                              error = sprintf("cell %s/%d/%d block %d: %s", task$code, task$si, task$ci, task$b, conditionMessage(e))))
   gc(verbose = FALSE)
   out
 }
@@ -67,7 +77,7 @@ process_task <- function(task) {
 worker_env <- c(SMD_ROOT = PROJECT_ROOT, SMD_SCALE = SCALE, SMD_REPLICATES = as.character(N_REPLICATES))
 setup_cluster <- function(ncores) {
   cl <- makeCluster(ncores, outfile = file.path(PATHS$logs, "workers.log"))
-  clusterExport(cl, c("worker_env", "parts_dir"), envir = environment(setup_cluster))
+  clusterExport(cl, c("worker_env", "parts_dir", "rep_blocks"), envir = environment(setup_cluster))
   clusterEvalQ(cl, {
     suppressMessages(library(data.table)); do.call(Sys.setenv, as.list(worker_env))
     setwd(Sys.getenv("SMD_ROOT"))
@@ -122,6 +132,7 @@ if (length(tasks)) {
 } else logline("nothing pending; all cells complete")
 
 part_files <- list.files(parts_dir, pattern = "^cell_.*\\.rds$", full.names = TRUE)
+n_done_units <- sum(vapply(part_files, function(f) if (grepl("_b[0-9]+\\.rds$", f)) 1L else length(rep_blocks), 1L))
 if (length(part_files)) {
   parts <- lapply(part_files, readRDS)
   fit_metrics <- rbindlist(lapply(parts, `[[`, "fits"), fill = TRUE)
@@ -129,9 +140,9 @@ if (length(part_files)) {
   fwrite(fit_metrics, file.path(PATHS$results, "fit_metrics.csv"))
   saveRDS(fit_metrics, file.path(PATHS$results, "fit_metrics.rds"))
   if (nrow(split_failures)) fwrite(split_failures, file.path(PATHS$results, "split_failures.csv"))
-  logline("MERGE | cells %d/%d | fits %d | failures %d | %.1f min total", length(part_files),
+  logline("MERGE | blocks %d/%d | fits %d | failures %d | %.1f min total", n_done_units,
           n_cells_total, nrow(fit_metrics), nrow(split_failures), as.numeric(Sys.time() - t_start, units = "mins"))
-  if (length(part_files) == n_cells_total)
+  if (n_done_units == n_cells_total)
     logline("ALL DONE | converged %.4f | mean fit %.3fs", mean(fit_metrics$converged, na.rm = TRUE), mean(fit_metrics$fit_seconds, na.rm = TRUE))
-  else logline("PARTIAL | %d of %d cells; re run to continue", length(part_files), n_cells_total)
+  else logline("PARTIAL | %d of %d replicate blocks; re run to continue", n_done_units, n_cells_total)
 }

@@ -90,7 +90,7 @@ make_fit_row <- function(code, region, focal, srow, nn, cov, tgt, rep, edge, mth
 }
 
 # process one design cell across all replicates and methods
-run_cell <- function(code, di, si, ci, r) {
+run_cell <- function(code, di, si, ci, r, reps = seq_len(N_REPLICATES)) {
   hauls <- r$hauls; occ <- r$occ; env_used <- r$env_used
   sp_all <- r$species$accepted_name; spinfo <- r$species
   region <- unname(DATASETS[code]); focal <- sp_all[si]
@@ -100,7 +100,7 @@ run_cell <- function(code, di, si, ci, r) {
   nn <- design$n[ci]; cov <- design$coverage[ci]; tgt <- design$target[ci]
   fit_rows <- list(); fail_rows <- list(); fi <- 0L; qi <- 0L
 
-  for (rep in seq_len(N_REPLICATES)) {
+  for (rep in reps) {
     set.seed(cell_seed(di, si, ci, rep))
     sp <- make_split(hauls, yf, env_used, n = nn, coverage = cov,
                      target = tgt, rep_id = rep, test_size = TEST_SIZE)
