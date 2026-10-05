@@ -34,6 +34,8 @@ R/
   05_helpers.R              shared cell logic (same fit contrast, isotonic REF and CAL)
   05_run_sim.R              serial driver (pilot)
   05_run_sim_parallel.R     resumable, self healing parallel driver (full scale)
+  05_run_sim_shard.R        socket free serial driver for one shard of the design (clusters, sandboxes)
+  05c_merge_parts.R         merge replicate block checkpoints into results/fit_metrics.rds
   05b_oracle.R              near oracle intrinsic term and variogram ranges
   06_analysis.R             hierarchical models, variance partition, optimism
   06b_theory_full.R         analyses that need the full scale quantities

@@ -21,6 +21,8 @@
 # each draw) are NOT here; they require a driver change and a rerun.
 # =====================================================================
 suppressMessages({ library(data.table); library(mgcv) })
+if (!nzchar(Sys.getenv("SMD_ROOT"))) Sys.setenv(SMD_ROOT = getwd())
+setwd(Sys.getenv("SMD_ROOT")); source(file.path("R", "config.R"))   # design constants for the fit count
 RES <- "results"; dir.create(RES, showWarnings = FALSE)
 say <- function(...) cat(sprintf(...), "\n")
 
@@ -129,11 +131,23 @@ classify <- function(rel, tshift, sshift) {
   s <- max(c(tshift, sshift), na.rm = TRUE); if (!is.finite(s)) s <- Inf
   if (rel < 0.10 && s < 0.05) "reliable" else if (rel < 0.18 && s < 0.10) "context dependent" else "unreliable"
 }
+# The restructured table and the prevalence conditioning are the costly
+# parts of this script at full scale (about 250 REML smooths on up to 1.2
+# million fits). They are computed once and cached so that the resumable
+# bootstrap below can be continued across several invocations without
+# recomputing them. Delete the cache after any change to fit_metrics.rds.
+cache_file <- file.path(RES, "theory_prebootstrap_cache.rds")
+if (file.exists(cache_file)) {
+  cc <- readRDS(cache_file); H <- cc$H; prev_cond <- cc$prev_cond
+  say("loaded cached restructured harmonisation table (%d pairs) and prevalence conditioning", nrow(H))
+} else {
 H <- rbindlist(lapply(pairs, function(p) { r <- harm_one(d, p[1], p[2]); if (is.null(r)) NULL else as.data.table(r) }))
 H[, binding_shift := ifelse(survey_shift > target_shift, "survey", "inference target")]
 H[, class_range := mapply(classify, rel_resid_range, target_shift, survey_shift)]
 H[, class_idr   := mapply(classify, rel_resid_idr,   target_shift, survey_shift)]
 H[, pooled_exceeds_bound := resid_sd >= pool_bound]
+fwrite(H, file.path(RES, "table_harmonisation_theory.csv"))
+say("restructured harmonisation table written (bootstrap stability columns follow)")
 
 # prevalence conditioning (Theorem 1b): shifts within prevalence deciles
 d[, prev_bin := cut(test_prev, quantile(test_prev, seq(0, 1, .1)), include.lowest = TRUE, labels = FALSE)]
@@ -149,6 +163,8 @@ prev_cond <- rbindlist(lapply(list(c("R2","RMSE"), c("R2","Brier"), c("AUC","R2"
              survey_shift_within_prev = mean(bb$survey_shift, na.rm = TRUE),
              n_bins = nrow(bb))
 }))
+saveRDS(list(H = H, prev_cond = prev_cond), cache_file)
+}
 fwrite(prev_cond, file.path(RES, "table_prevalence_conditioning.csv"))
 say("\n--- prevalence conditioning (Theorem 1b): shifts pooled vs within prevalence deciles ---")
 print(prev_cond[, lapply(.SD, function(x) if (is.numeric(x)) signif(x, 3) else x)])
@@ -182,20 +198,40 @@ class_fast <- function(dat, from, to) {
   c(classify(rs / diff(range(sub[[to]])), ts, ss), classify(rs / idr(sub[[to]]), ts, ss))
 }
 NB <- as.integer(Sys.getenv("SMD_BOOT_REPS", unset = "100"))
+# wall clock budget for this invocation; replicates are checkpointed one at a
+# time in boot_classes.rds, so the script can be re run until NB is reached
+BOOT_SECS <- as.numeric(Sys.getenv("SMD_BOOT_SECS", unset = "200"))
 boot_file <- file.path(RES, "boot_classes.rds")
+boot_part <- file.path(RES, "boot_partial.rds")     # pairs finished in the replicate in progress
 boot_cls <- if (file.exists(boot_file)) readRDS(boot_file) else list()
 sp_by_ds <- d[, .(sp = unique(species)), by = dataset]
-set.seed(20260916 + length(boot_cls))
-t0 <- Sys.time()
-while (length(boot_cls) < NB && as.numeric(Sys.time() - t0, units = "secs") < 200) {
+# Each replicate r draws its species resample from its own seed, so a
+# replicate interrupted by the time budget is resumed with the same resample
+# and only its pending pairs are refitted (at full scale one replicate is
+# longer than a single invocation on a small machine).
+t0 <- Sys.time(); elapsed <- function() as.numeric(Sys.time() - t0, units = "secs")
+while (length(boot_cls) < NB && elapsed() < BOOT_SECS) {
+  r <- length(boot_cls) + 1L
+  set.seed(20260916 + r)
   samp <- sp_by_ds[, .(species = sample(sp, length(sp), replace = TRUE)), by = dataset]
   samp[, cid := seq_len(.N)]
   db <- merge(d, samp, by = c("dataset", "species"), allow.cartesian = TRUE)
-  cls <- rbindlist(lapply(pairs, function(p) {
+  part <- if (file.exists(boot_part)) readRDS(boot_part) else list(rep = r, cls = list())
+  if (!identical(part$rep, r)) part <- list(rep = r, cls = list())
+  done_pairs <- vapply(part$cls, function(x) paste(x$from, x$to), "")
+  for (p in pairs) {
+    if (paste(p[1], p[2]) %in% done_pairs) next
+    if (elapsed() >= BOOT_SECS) break
     k <- class_fast(db, p[1], p[2])
-    data.table(from = p[1], to = p[2], class_range = k[1], class_idr = k[2]) }))
-  boot_cls[[length(boot_cls) + 1]] <- cls
-  saveRDS(boot_cls, boot_file)
+    part$cls[[length(part$cls) + 1]] <- data.table(from = p[1], to = p[2], class_range = k[1], class_idr = k[2])
+    saveRDS(part, boot_part)
+  }
+  if (length(part$cls) < length(pairs)) {
+    say("bootstrap replicate %d paused with %d of %d pairs done", r, length(part$cls), length(pairs)); break
+  }
+  boot_cls[[r]] <- rbindlist(part$cls)
+  saveRDS(boot_cls, boot_file); unlink(boot_part)
+  say("bootstrap replicate %d complete (%.1f min elapsed)", r, elapsed() / 60)
 }
 say("bootstrap replicates completed: %d of %d", length(boot_cls), NB)
 if (length(boot_cls)) {
@@ -324,6 +360,8 @@ say("\n--- Lemma 5 ---"); print(h_tab[, .(quantity, value = round(value, 3))])
 # I. fit count arithmetic
 # ---------------------------------------------------------------------
 sf <- fread(file.path(RES, "split_failures.csv"))
-say("\n--- fit count: 4 x 3 x 30 x 4 x 7 = %d; degenerate splits = %d; minus %d x 7 = %d; rows in results = %d",
-    4*3*30*4*7, nrow(sf), nrow(sf), 4*3*30*4*7 - nrow(sf)*7, nrow(d0))
+n_planned <- length(DATASETS) * N_SPECIES_PER_DATASET * 30 * N_REPLICATES * length(METHODS)
+say("\n--- fit count: %d x %d x 30 x %d x %d = %d; degenerate splits = %d; minus %d x %d = %d; rows in results = %d",
+    length(DATASETS), N_SPECIES_PER_DATASET, N_REPLICATES, length(METHODS), n_planned,
+    nrow(sf), nrow(sf), length(METHODS), n_planned - nrow(sf) * length(METHODS), nrow(d0))
 say("theory analysis complete")

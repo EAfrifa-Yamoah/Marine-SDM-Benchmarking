@@ -60,9 +60,9 @@ savef(f1, "fig1_sample_size_scaling.png")
 # ---- Figure 2  spatial structure and variance partition (RQ2) -------
 vp <- as.data.table(A$variance_partition)
 vp[, grp := factor(grp,
-     levels = c("Residual", "cell_id", "sp_id", "dataset"),
+     levels = c("Residual", "cell_id", "sp_id", "dataset", "dataset:target"),
      labels = c("residual (replicate + method)", "design cell",
-                "species", "dataset"))]
+                "species", "dataset", "survey by target"))]
 f2a <- ggplot(vp, aes(x = "", y = prop, fill = grp)) +
   geom_col(width = 0.7) +
   scale_fill_viridis_d(option = "mako", begin = 0.2, end = 0.9) +
