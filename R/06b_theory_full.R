@@ -13,7 +13,8 @@ suppressMessages({ library(data.table); library(lme4); library(mgcv) })
 if (!nzchar(Sys.getenv("SMD_ROOT"))) Sys.setenv(SMD_ROOT = getwd()); setwd(Sys.getenv("SMD_ROOT"))
 source(file.path("R", "config.R")); RES <- PATHS$results
 say <- function(...) cat(sprintf(...), "\n")
-d <- fread(file.path(RES, "fit_metrics.csv"))[converged == TRUE]
+fm_rds <- file.path(RES, "fit_metrics.rds")   # binary copy preferred (see 10_theory_analysis.R)
+d <- (if (file.exists(fm_rds)) as.data.table(readRDS(fm_rds)) else fread(file.path(RES, "fit_metrics.csv")))[converged == TRUE]
 if (!"interp_AUC" %in% names(d)) stop("fit_metrics.csv lacks the full scale columns; rerun the driver")
 m <- d[target == "marginal" & is.finite(interp_AUC) & is.finite(AUC)]
 m[, `:=`(opt_auc_samefit = interp_AUC - AUC, opt_brier_samefit = Brier - interp_Brier,

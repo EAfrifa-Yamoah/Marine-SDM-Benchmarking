@@ -26,7 +26,10 @@ setwd(Sys.getenv("SMD_ROOT")); source(file.path("R", "config.R"))   # design con
 RES <- "results"; dir.create(RES, showWarnings = FALSE)
 say <- function(...) cat(sprintf(...), "\n")
 
-d0 <- fread(file.path(RES, "fit_metrics.csv"))
+# read the binary copy when present: it is a quarter of the size, faster, and
+# on network backed storage a large csv can be lost or replaced by a stale copy
+fm_rds <- file.path(RES, "fit_metrics.rds")
+d0 <- if (file.exists(fm_rds)) as.data.table(readRDS(fm_rds)) else fread(file.path(RES, "fit_metrics.csv"))
 d  <- d0[converged == TRUE & is.finite(AUC) & is.finite(R2) & is.finite(Brier)]
 say("=== theory analysis over %d converged fits ===", nrow(d))
 
