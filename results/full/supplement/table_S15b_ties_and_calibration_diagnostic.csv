@@ -1,0 +1,8 @@
+method,share_tie_affected,max_dev,median_mae_minus_2brier,median_calibration_slope,spearman_with_abs_log_slope
+BRT,0.359,0.914,-0.084,0.16,-0.3
+GeostatGP,0.263,0.914,-0.036,0.34,-0.52
+JointSDM,0.001,0.161,0.002,0.57,-0.07
+MaxEntPO,0.032,0.526,-0.003,0.91,-0.09
+RF,0.238,0.342,-0.009,0.43,-0.18
+SpatialGAM,0.153,0.914,-0.015,0.58,-0.36
+SpatialRF,0.14,0.405,0.001,0.77,0.07

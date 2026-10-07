@@ -1,0 +1,5 @@
+survey,hauls,years,unique_stations,hauls_per_station,extent_km2,span_x_km,span_y_km,covariates
+Eastern Bering Sea,13805,38,7595,1.82,275739,1136,781,"depth, sbt, sst"
+North Sea (IBTS),24665,53,16083,1.53,506979,980,1201,depth
+Gulf of Mexico,24022,43,20870,1.15,306051,1493,594,"depth, sbt, sst"
+Northeast US shelf,35846,58,30305,1.18,358172,1161,1232,"depth, sbt, sst"

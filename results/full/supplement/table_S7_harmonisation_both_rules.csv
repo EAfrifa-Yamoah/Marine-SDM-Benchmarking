@@ -1,0 +1,17 @@
+translation,kind,pooled_residual_sd,within_context_sd,corollary3_bound,binding_shift,class_range,stability_range,class_interdecile,stability_interdecile
+TSS → Spearman,empirical,0.0987,0.0926,0.01,inference target,reliable,0.99,unreliable,0.86
+AUC → TSS,empirical,0.144,0.137,0.0147,inference target,reliable,0.88,unreliable,1
+TSS → AUC,empirical,0.117,0.115,0.0136,survey,context dependent,1,unreliable,1
+AUC → R2,empirical,10.9,10.8,0.303,inference target,unreliable,1,unreliable,1
+AUC → RMSE,empirical,0.15,0.147,0.019,inference target,context dependent,1,unreliable,1
+AUC → Brier,empirical,0.121,0.118,0.0135,inference target,context dependent,1,unreliable,1
+Brier → MAE,"empirical, bounded (Prop. 1)",0.0562,0.0552,0.00513,survey,reliable,1,context dependent,1
+MAE → Brier,"empirical, bounded (Prop. 1)",0.0436,0.0427,0.00336,inference target,reliable,1,context dependent,1
+Brier → RMSE,exact given prevalence,0.0112,0.00959,0.000996,inference target,reliable,1,reliable,1
+RMSE → Brier,exact given prevalence,0.00123,0.00131,0.00014,inference target,reliable,1,reliable,1
+R2 → RMSE,exact given prevalence,0.154,0.152,0.011,inference target,context dependent,1,unreliable,1
+RMSE → R2,exact given prevalence,10.3,10.2,0.297,inference target,unreliable,1,unreliable,1
+Brier → R2,exact given prevalence,10.2,10.1,0.257,inference target,unreliable,1,unreliable,1
+R2 → Brier,exact given prevalence,0.121,0.119,0.00759,survey,context dependent,1,unreliable,1
+AUC → Spearman,exact given score distribution,0.121,0.111,0.0144,inference target,reliable,0.91,unreliable,1
+Spearman → AUC,exact given score distribution,0.09,0.0874,0.0125,inference target,reliable,1,unreliable,1

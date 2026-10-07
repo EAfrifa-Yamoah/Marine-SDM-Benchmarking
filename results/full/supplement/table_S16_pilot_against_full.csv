@@ -1,0 +1,19 @@
+quantity,pilot,full
+"conditional AUC, n = 30 (all methods)",0.723,0.692
+"conditional AUC, n = 500 (all methods)",0.794,0.767
+JointSDM conditional AUC,0.691,0.577
+"spatial advantage, conditional (as specified)",-0.001,-0.018
+"spatial advantage, marginal (as specified)",-0.047,-0.037
+"optimism, spatial class (as specified)",0.142,0.103
+"optimism, non-spatial class",0.095,0.084
+"optimism, Eastern Bering Sea",0.184,0.103
+"optimism, North Sea",0.096,0.114
+"optimism, Gulf of Mexico",0.069,0.062
+"optimism, Northeast US shelf",0.141,0.1
+"marginal AUC, clustered coverage",0.605,0.616
+"marginal AUC, distributed coverage",0.65,0.654
+"variance share, residual",0.623,0.736
+"variance share, species",0.164,0.152
+"variance share, survey",0.06,0.059
+"variance share, survey by target",0.058,0.012
+Lemma 5 correlation,0.641,-0.254

@@ -1,0 +1,12 @@
+from,to,pearson,spearman,resid_sd,rel_resid,context_divergence,survey_divergence,binding_shift,reliability
+TSS,AUC,0.727,0.742,0.1169,0.117,0.0198,0.0212,survey,context dependent
+R2,RMSE,-0.195,-0.185,0.1539,0.154,0.0458,0.0258,inference target,context dependent
+AUC,RMSE,-0.208,-0.233,0.1501,0.15,0.0344,0.0327,inference target,context dependent
+AUC,Brier,-0.24,-0.233,0.1209,0.121,0.0426,0.0241,inference target,context dependent
+RMSE,Brier,0.959,1,0.0012,0.001,0.0017,3e-04,inference target,exact (analytic)
+Brier,RMSE,0.959,1,0.0112,0.011,0.0096,0.0017,inference target,exact (analytic)
+TSS,Spearman,0.871,0.875,0.0987,0.055,0.0308,0.0159,inference target,reliable
+AUC,Spearman,0.796,0.809,0.1208,0.067,0.0407,0.0209,inference target,reliable
+Spearman,AUC,0.796,0.809,0.09,0.09,0.0222,0.0204,inference target,reliable
+AUC,TSS,0.727,0.742,0.144,0.076,0.0405,0.0218,inference target,reliable
+AUC,R2,0.102,0.487,10.9228,0.027,2.9652,0.6307,inference target,unreliable

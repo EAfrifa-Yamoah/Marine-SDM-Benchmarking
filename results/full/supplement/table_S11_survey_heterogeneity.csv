@@ -1,0 +1,5 @@
+survey,optimism,se_species,excess_spatial,excess_spatial_without_joint,advantage_conditional,advantage_conditional_without_joint,advantage_marginal,advantage_marginal_without_joint,coverage_lift
+North Sea (IBTS),0.114,0.015,0.025,0.048,0.01,0.056,-0.017,0.006,0.044
+Eastern Bering Sea,0.103,0.016,0.02,0.041,-0.047,0.013,-0.071,-0.03,0.038
+Northeast US shelf,0.1,0.013,0.003,0.025,-0.048,0.008,-0.048,-0.016,0.033
+Gulf of Mexico,0.062,0.0065,0.029,0.047,0.014,0.048,-0.015,0.001,0.034

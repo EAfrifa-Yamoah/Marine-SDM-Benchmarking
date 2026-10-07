@@ -1,0 +1,19 @@
+component,term,estimate,se,share_of_variance
+fixed effect,(Intercept),0.62,0.026,
+fixed effect,spatialTRUE,0.0134,0.00047,
+fixed effect,familygam,0.00456,0.00066,
+fixed effect,familygeostatistical,-0.00345,0.00066,
+fixed effect,familyjsdm,-0.147,0.00066,
+fixed effect,familypresence_only,0.00749,0.00047,
+fixed effect,familytree,0.0175,0.00047,
+fixed effect,log10n,0.0513,0.0018,
+fixed effect,coverageintermediate,0.0137,0.0019,
+fixed effect,coveragedistributed,0.0256,0.0019,
+fixed effect,targetmarginal,-0.0972,0.013,
+fixed effect,bandintermediate,-0.0118,0.02,
+fixed effect,bandcommon,0.00791,0.02,
+variance component,cell_id,0.00102,,0.04
+variance component,sp_id,0.00383,,0.152
+variance component,dataset:target,0.000311,,0.012
+variance component,dataset,0.00148,,0.059
+variance component,Residual,0.0185,,0.736

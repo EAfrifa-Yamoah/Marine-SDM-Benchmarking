@@ -1,0 +1,19 @@
+model,term,estimate,se
+Corollary 4: estimation term,(Intercept),0.0029,0.0071
+Corollary 4: estimation term,spatialTRUE,0.0258,0.00056
+Corollary 4: estimation term,log1p(sep_scaled),0.032,0.0011
+Corollary 4: estimation term,cov_shift,0.00852,0.00041
+Corollary 4: estimation term,log10n,0.00688,0.0016
+Corollary 4: estimation term,spatialTRUE:log1p(sep_scaled),0.0366,0.00097
+Corollary 4: estimation term,spatialTRUE:cov_shift,0.0115,0.00048
+Proposition 5: marginal AUC on fill distance,(Intercept),0.602,0.081
+Proposition 5: marginal AUC on fill distance,spatialTRUE,-0.00379,0.00079
+Proposition 5: marginal AUC on fill distance,familygam,0.00434,0.0011
+Proposition 5: marginal AUC on fill distance,familygeostatistical,-0.00971,0.0011
+Proposition 5: marginal AUC on fill distance,familyjsdm,-0.107,0.0011
+Proposition 5: marginal AUC on fill distance,familypresence_only,0.0113,0.00079
+Proposition 5: marginal AUC on fill distance,familytree,0.0158,0.00079
+Proposition 5: marginal AUC on fill distance,log10n,0.04,0.0023
+Proposition 5: marginal AUC on fill distance,log2_fill,-0.00359,0.0084
+Proposition 5: marginal AUC on fill distance,bandintermediate,-0.0207,0.021
+Proposition 5: marginal AUC on fill distance,bandrare,-0.0143,0.021

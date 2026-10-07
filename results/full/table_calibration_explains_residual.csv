@@ -1,0 +1,5 @@
+quantity,value
+R2 of AUC->Brier residual on log calibration slope (quadratic) and prevalence,0.23297000752076
+R2 adding calibration intercept (quadratic),0.238837239501836
+BRT share of fits,0.143810215825859
+BRT share of residual sum of squares,0.136853053185154

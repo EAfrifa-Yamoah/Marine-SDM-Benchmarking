@@ -1,0 +1,457 @@
+key,value,shown,definition,source
+fits_planned,1260000,"1,260,000",surveys x species x design cells x replicates x methods,config.R
+splits_degenerate,11747,"11,747",replicate splits with a degenerate occurrence vector,split_failures.csv
+fits_lost,82229,"82,229",fits lost to degenerate splits,split_failures.csv
+fits_scored,1177771,"1,177,771",scored fits,fit_metrics.rds
+fits_converged,1177622,"1,177,622","converged fits with finite AUC, R2 and Brier",fit_metrics.rds
+conv_rate,0.999873489838008,99.99%,share of scored fits that converged,fit_metrics.rds
+degenerate_rare,10940,"10,940","degenerate splits, rare band",split_failures.csv
+degenerate_intermediate,807,807,"degenerate splits, intermediate band",split_failures.csv
+degenerate_common,0,0,"degenerate splits, common band",split_failures.csv
+degenerate_n30,6734,"6,734",degenerate splits at n = 30,split_failures.csv
+degenerate_n50,3252,"3,252",degenerate splits at n = 50,split_failures.csv
+degenerate_n100,1104,"1,104",degenerate splits at n = 100,split_failures.csv
+degenerate_n200,485,485,degenerate splits at n = 200,split_failures.csv
+degenerate_n500,172,172,degenerate splits at n = 500,split_failures.csv
+splits_attempted,180000,"180,000",replicate splits attempted,config.R
+degenerate_share_rare,0.931301608921427,93%,share of degenerate splits in the rare band,split_failures.csv
+degenerate_share_n50,0.850089384523708,85%,share of degenerate splits at n = 30 or 50,split_failures.csv
+species_total,60,60,survey by species combinations,fit_metrics.rds
+test_size,400,400,test hauls per fit (median),fit_metrics.rds
+fit_seconds_mean,0.122020447449659,0.12,"mean fit time, seconds",fit_metrics.rds
+core_hours,39.9200401147869,40,"summed fit time, hours",fit_metrics.rds
+oracle_fits,2778,"2,778",near oracle fits,oracle_intrinsic.csv
+prev_min_rare,0.0200689235759173,2.0%,"lowest survey prevalence, rare band",fit_metrics.rds
+prev_max_rare,0.0498709516276746,5.0%,"highest survey prevalence, rare band",fit_metrics.rds
+prev_min_intermediate,0.050120722670885,5.0%,"lowest survey prevalence, intermediate band",fit_metrics.rds
+prev_max_intermediate,0.249567594710707,25.0%,"highest survey prevalence, intermediate band",fit_metrics.rds
+prev_min_common,0.252078335100151,25.2%,"lowest survey prevalence, common band",fit_metrics.rds
+prev_max_common,0.734522602878573,73.5%,"highest survey prevalence, common band",fit_metrics.rds
+auc_conditional_n30,0.692355543449428,0.692,"mean test AUC, conditional target, n = 30, all methods",fit_metrics.rds
+auc_conditional_n500,0.767486244070044,0.767,"mean test AUC, conditional target, n = 500, all methods",fit_metrics.rds
+auc_marginal_n30,0.608744465722573,0.609,"mean test AUC, marginal target, n = 30, all methods",fit_metrics.rds
+auc_marginal_n500,0.658771545405324,0.659,"mean test AUC, marginal target, n = 500, all methods",fit_metrics.rds
+auc_cond_RF_n30,0.722563747324001,0.723,"mean conditional AUC, RF, n = 30",fit_metrics.rds
+auc_cond_RF_n500,0.784765585681012,0.785,"mean conditional AUC, RF, n = 500",fit_metrics.rds
+auc_cond_SpatialRF_n30,0.744144708443797,0.744,"mean conditional AUC, SpatialRF, n = 30",fit_metrics.rds
+auc_cond_SpatialRF_n500,0.823551971616302,0.824,"mean conditional AUC, SpatialRF, n = 500",fit_metrics.rds
+auc_cond_BRT_n30,0.707116072283277,0.707,"mean conditional AUC, BRT, n = 30",fit_metrics.rds
+auc_cond_BRT_n500,0.776566846113444,0.777,"mean conditional AUC, BRT, n = 500",fit_metrics.rds
+auc_cond_MaxEntPO_n30,0.704288773469674,0.704,"mean conditional AUC, MaxEntPO, n = 30",fit_metrics.rds
+auc_cond_MaxEntPO_n500,0.75556966680656,0.756,"mean conditional AUC, MaxEntPO, n = 500",fit_metrics.rds
+auc_cond_SpatialGAM_n30,0.708255215927899,0.708,"mean conditional AUC, SpatialGAM, n = 30",fit_metrics.rds
+auc_cond_SpatialGAM_n500,0.820715147597693,0.821,"mean conditional AUC, SpatialGAM, n = 500",fit_metrics.rds
+auc_cond_GeostatGP_n30,0.700102719770962,0.700,"mean conditional AUC, GeostatGP, n = 30",fit_metrics.rds
+auc_cond_GeostatGP_n500,0.820747258186741,0.821,"mean conditional AUC, GeostatGP, n = 500",fit_metrics.rds
+auc_cond_JointSDM_n30,0.560017566926388,0.560,"mean conditional AUC, JointSDM, n = 30",fit_metrics.rds
+auc_cond_JointSDM_n500,0.590487232488558,0.590,"mean conditional AUC, JointSDM, n = 500",fit_metrics.rds
+slope_RF,0.049874501033341,0.050,"conditional AUC gain per decade of n, RF",table_scaling_slopes.csv
+slope_SpatialRF,0.0644166577000537,0.064,"conditional AUC gain per decade of n, SpatialRF",table_scaling_slopes.csv
+slope_BRT,0.0575861318059851,0.058,"conditional AUC gain per decade of n, BRT",table_scaling_slopes.csv
+slope_MaxEntPO,0.0401797937675553,0.040,"conditional AUC gain per decade of n, MaxEntPO",table_scaling_slopes.csv
+slope_SpatialGAM,0.0920682611866721,0.092,"conditional AUC gain per decade of n, SpatialGAM",table_scaling_slopes.csv
+slope_GeostatGP,0.0976151748222277,0.098,"conditional AUC gain per decade of n, GeostatGP",table_scaling_slopes.csv
+slope_JointSDM,0.0240113887760427,0.024,"conditional AUC gain per decade of n, JointSDM",table_scaling_slopes.csv
+crossover_SpatialGAM,100,100,smallest n at which SpatialGAM exceeds RF under the conditional target,fit_metrics.rds
+crossover_GeostatGP,100,100,smallest n at which GeostatGP exceeds RF under the conditional target,fit_metrics.rds
+auc_conditional_RF,0.752153181758562,0.752,"mean AUC, conditional target, RF",table_performance_by_method_target.csv
+auc_marginal_RF,0.662094689607352,0.662,"mean AUC, marginal target, RF",table_performance_by_method_target.csv
+auc_conditional_SpatialRF,0.782076855868105,0.782,"mean AUC, conditional target, SpatialRF",table_performance_by_method_target.csv
+auc_marginal_SpatialRF,0.6583054717056,0.658,"mean AUC, marginal target, SpatialRF",table_performance_by_method_target.csv
+auc_conditional_BRT,0.733068726239503,0.733,"mean AUC, conditional target, BRT",table_performance_by_method_target.csv
+auc_marginal_BRT,0.646289767273124,0.646,"mean AUC, marginal target, BRT",table_performance_by_method_target.csv
+auc_conditional_MaxEntPO,0.736928518187806,0.737,"mean AUC, conditional target, MaxEntPO",table_performance_by_method_target.csv
+auc_marginal_MaxEntPO,0.657541742268938,0.658,"mean AUC, marginal target, MaxEntPO",table_performance_by_method_target.csv
+auc_conditional_SpatialGAM,0.767772135060844,0.768,"mean AUC, conditional target, SpatialGAM",table_performance_by_method_target.csv
+auc_marginal_SpatialGAM,0.646841763901553,0.647,"mean AUC, marginal target, SpatialGAM",table_performance_by_method_target.csv
+auc_conditional_GeostatGP,0.765582971611846,0.766,"mean AUC, conditional target, GeostatGP",table_performance_by_method_target.csv
+auc_marginal_GeostatGP,0.632795507025715,0.633,"mean AUC, marginal target, GeostatGP",table_performance_by_method_target.csv
+auc_conditional_JointSDM,0.576574273865633,0.577,"mean AUC, conditional target, JointSDM",table_performance_by_method_target.csv
+auc_marginal_JointSDM,0.535373809539594,0.535,"mean AUC, marginal target, JointSDM",table_performance_by_method_target.csv
+spadv_cond,-0.0177152496270167,-0.018,"spatial minus non spatial mean AUC, conditional",table_spatial_effect.csv
+spadv_marg,-0.0369795950066891,-0.037,"spatial minus non spatial mean AUC, marginal",table_spatial_effect.csv
+spadv_exJ_cond,0.0310938454516414,+0.031,"SpatialRF, SpatialGAM, GeostatGP minus non spatial mean AUC, conditional",fit_metrics.rds
+spadv_exJ_marg,-0.0093278188388487,-0.009,"SpatialRF, SpatialGAM, GeostatGP minus non spatial mean AUC, marginal",fit_metrics.rds
+fe_spatial,0.0133700877034958,+0.013,"spatial fixed effect, AUC model adjusted for family",table_fixed_effects.csv
+fe_spatial_se,0.00046869498116157,0.0005,its standard error,table_fixed_effects.csv
+fe_jsdm,-0.147484746940034,-0.147,joint model family effect,table_fixed_effects.csv
+fe_cov_int,0.013684269040268,+0.014,intermediate coverage effect,table_fixed_effects.csv
+fe_cov_dist,0.0255697749185561,+0.026,distributed coverage effect,table_fixed_effects.csv
+fe_log10n,0.0513195398604349,0.051,"AUC per decade of n, adjusted",table_fixed_effects.csv
+fe_marginal,-0.0971871042220693,-0.097,marginal target effect,table_fixed_effects.csv
+vp_residual,0.735951809289608,74%,"variance share, residual",table_variance_partition.csv
+vp_species,0.152374499691299,15%,"variance share, species",table_variance_partition.csv
+vp_survey,0.0587881148975776,6%,"variance share, survey",table_variance_partition.csv
+vp_cell,0.0404869825499474,4%,"variance share, cell",table_variance_partition.csv
+vp_survey_target,0.0123985935715675,1%,"variance share, survey_target",table_variance_partition.csv
+vp_survey_total,0.0711867084691451,7%,survey and survey by target shares combined,table_variance_partition.csv
+vp_species_floor,0.0101582999794199,1.0%,species share divided by species per survey (noise floor of a survey mean),table_variance_partition.csv
+cov_clustered,0.615765411618962,0.616,"mean marginal AUC, clustered",fit_metrics.rds
+cov_intermediate,0.632505852590501,0.633,"mean marginal AUC, intermediate",fit_metrics.rds
+cov_distributed,0.653736228938951,0.654,"mean marginal AUC, distributed",fit_metrics.rds
+cov_lift,0.037970817319989,0.038,distributed minus clustered marginal AUC,fit_metrics.rds
+covgrid_clustered_n30,0.594470749634776,0.594,"mean marginal AUC, clustered, n = 30",table_coverage_by_n.csv
+covgrid_intermediate_n30,0.606751181591358,0.607,"mean marginal AUC, intermediate, n = 30",table_coverage_by_n.csv
+covgrid_distributed_n30,0.624712423001807,0.625,"mean marginal AUC, distributed, n = 30",table_coverage_by_n.csv
+covgrid_clustered_n50,0.604698109025955,0.605,"mean marginal AUC, clustered, n = 50",table_coverage_by_n.csv
+covgrid_intermediate_n50,0.618472929516327,0.618,"mean marginal AUC, intermediate, n = 50",table_coverage_by_n.csv
+covgrid_distributed_n50,0.635713957386401,0.636,"mean marginal AUC, distributed, n = 50",table_coverage_by_n.csv
+covgrid_clustered_n100,0.612875410481247,0.613,"mean marginal AUC, clustered, n = 100",table_coverage_by_n.csv
+covgrid_intermediate_n100,0.629518903484414,0.630,"mean marginal AUC, intermediate, n = 100",table_coverage_by_n.csv
+covgrid_distributed_n100,0.651506472710909,0.652,"mean marginal AUC, distributed, n = 100",table_coverage_by_n.csv
+covgrid_clustered_n200,0.626377037016138,0.626,"mean marginal AUC, clustered, n = 200",table_coverage_by_n.csv
+covgrid_intermediate_n200,0.643098881083137,0.643,"mean marginal AUC, intermediate, n = 200",table_coverage_by_n.csv
+covgrid_distributed_n200,0.666463654983849,0.666,"mean marginal AUC, distributed, n = 200",table_coverage_by_n.csv
+covgrid_clustered_n500,0.635190116728492,0.635,"mean marginal AUC, clustered, n = 500",table_coverage_by_n.csv
+covgrid_intermediate_n500,0.657664997135701,0.658,"mean marginal AUC, intermediate, n = 500",table_coverage_by_n.csv
+covgrid_distributed_n500,0.68306824267688,0.683,"mean marginal AUC, distributed, n = 500",table_coverage_by_n.csv
+opt_RF,0.0883617062675035,0.088,"conditional minus marginal AUC, paired, RF",table_validation_optimism.csv
+opt_se_RF,0.00055068960724955,0.0006,"its standard error, RF",table_validation_optimism.csv
+opt_SpatialRF,0.120982046031067,0.121,"conditional minus marginal AUC, paired, SpatialRF",table_validation_optimism.csv
+opt_se_SpatialRF,0.000643284467811909,0.0006,"its standard error, SpatialRF",table_validation_optimism.csv
+opt_BRT,0.0857000251895866,0.086,"conditional minus marginal AUC, paired, BRT",table_validation_optimism.csv
+opt_se_BRT,0.000547994113337636,0.0005,"its standard error, BRT",table_validation_optimism.csv
+opt_MaxEntPO,0.0771245629867594,0.077,"conditional minus marginal AUC, paired, MaxEntPO",table_validation_optimism.csv
+opt_se_MaxEntPO,0.000618588346015365,0.0006,"its standard error, MaxEntPO",table_validation_optimism.csv
+opt_SpatialGAM,0.11924480164533,0.119,"conditional minus marginal AUC, paired, SpatialGAM",table_validation_optimism.csv
+opt_se_SpatialGAM,0.000667613503349466,0.0007,"its standard error, SpatialGAM",table_validation_optimism.csv
+opt_GeostatGP,0.131637423067142,0.132,"conditional minus marginal AUC, paired, GeostatGP",table_validation_optimism.csv
+opt_se_GeostatGP,0.000655700006516578,0.0007,"its standard error, GeostatGP",table_validation_optimism.csv
+opt_JointSDM,0.0393528207241278,0.039,"conditional minus marginal AUC, paired, JointSDM",table_validation_optimism.csv
+opt_se_JointSDM,0.000787216200519966,0.0008,"its standard error, JointSDM",table_validation_optimism.csv
+opt_se_cl_min,0.00685764837011357,0.007,smallest species clustered standard error of a method's optimism,fit_metrics.rds
+opt_se_cl_max,0.0113370127313534,0.011,largest species clustered standard error of a method's optimism,fit_metrics.rds
+optds_se_cl_EBS,0.0155538154336731,0.016,"species clustered standard error of survey optimism, EBS",fit_metrics.rds
+optds_se_cl_GMEX,0.00646069594362999,0.006,"species clustered standard error of survey optimism, GMEX",fit_metrics.rds
+optds_se_cl_NEUS,0.0125058807201163,0.013,"species clustered standard error of survey optimism, NEUS",fit_metrics.rds
+optds_se_cl_NSIBTS,0.0147839810854907,0.015,"species clustered standard error of survey optimism, NS-IBTS",fit_metrics.rds
+optds_se_cl_min,0.00646069594362999,0.006,smallest species clustered standard error of a survey's optimism,fit_metrics.rds
+optds_se_cl_max,0.0155538154336731,0.016,largest species clustered standard error of a survey's optimism,fit_metrics.rds
+spearman_auc_r2,0.487,0.49,Spearman correlation between AUC and R2 over fits,table_harmonisation_reliability.csv
+opt_spatial,0.102804272866917,0.103,"optimism, spatial class including JointSDM",fit_metrics.rds
+opt_nonspatial,0.0837287648146166,0.084,"optimism, non spatial class",fit_metrics.rds
+opt_spatial_exJ,0.123954756914513,0.124,"optimism, SpatialRF, SpatialGAM and GeostatGP",fit_metrics.rds
+opt_excess_exJ,0.0402259920998963,0.040,excess optimism of the three spatial smoothers over non spatial methods,fit_metrics.rds
+opt_n30,0.0789335490222071,0.079,pooled optimism at n = 30,fit_metrics.rds
+opt_n50,0.0867332825698711,0.087,pooled optimism at n = 50,fit_metrics.rds
+opt_n100,0.0942094084307551,0.094,pooled optimism at n = 100,fit_metrics.rds
+opt_n200,0.100015717676774,0.100,pooled optimism at n = 200,fit_metrics.rds
+opt_n500,0.108247906038486,0.108,pooled optimism at n = 500,fit_metrics.rds
+opt_cov_clustered,0.103576018041517,0.104,"pooled optimism, clustered coverage",fit_metrics.rds
+opt_cov_intermediate,0.098210255080511,0.098,"pooled optimism, intermediate coverage",fit_metrics.rds
+opt_cov_distributed,0.0824179040321968,0.082,"pooled optimism, distributed coverage",fit_metrics.rds
+sfopt_spatial,0.10010630567323,0.100,"same fit optimism, spatial class",fit_metrics.rds
+sfopt_nonspatial,0.0808803157856494,0.081,"same fit optimism, non spatial class",fit_metrics.rds
+sfopt_spatial_exJ,0.118571088263581,0.119,"same fit optimism, three spatial smoothers",fit_metrics.rds
+sfopt_RF,0.0875612384919386,0.088,"same fit optimism, RF",table_samefit_optimism_by_method.csv
+sfopt_SpatialRF,0.11671767022531,0.117,"same fit optimism, SpatialRF",table_samefit_optimism_by_method.csv
+sfopt_BRT,0.0839544372277341,0.084,"same fit optimism, BRT",table_samefit_optimism_by_method.csv
+sfopt_MaxEntPO,0.0711252716372776,0.071,"same fit optimism, MaxEntPO",table_samefit_optimism_by_method.csv
+sfopt_SpatialGAM,0.113453385735372,0.113,"same fit optimism, SpatialGAM",table_samefit_optimism_by_method.csv
+sfopt_GeostatGP,0.125542208830062,0.126,"same fit optimism, GeostatGP",table_samefit_optimism_by_method.csv
+sfopt_JointSDM,0.044654085118813,0.045,"same fit optimism, JointSDM",table_samefit_optimism_by_method.csv
+ident_bs_rmse,1.11022302462516e-16,1.1e-16,max |Brier - RMSE^2|,table_identity_verification.csv
+ident_r2,5.51381162949838e-12,5.5e-12,max |R2 - (1 - Brier / pi(1 - pi))|,table_identity_verification.csv
+ident_prop1_viol,0,0,fits violating MAE^2 <= Brier <= MAE,table_identity_verification.csv
+tie_fits,1167052,"1,167,052",fits with finite Spearman,table_identity_verification.csv
+tie_affected,197627,"197,627",fits departing from the no tie form by more than 0.001,table_identity_verification.csv
+tie_max,0.913505510244266,0.914,largest departure from the no tie form,table_identity_verification.csv
+tie_median,2.48550788659041e-07,2.5e-07,median departure from the no tie form,table_identity_verification.csv
+tie_share_RF,0.237663896912854,23.8%,"share of fits departing from the no tie form, RF",table_spearman_tie_effect_by_method.csv
+tie_share_SpatialRF,0.139654444847282,14.0%,"share of fits departing from the no tie form, SpatialRF",table_spearman_tie_effect_by_method.csv
+tie_share_BRT,0.358675834455474,35.9%,"share of fits departing from the no tie form, BRT",table_spearman_tie_effect_by_method.csv
+tie_share_MaxEntPO,0.0319885950012133,3.2%,"share of fits departing from the no tie form, MaxEntPO",table_spearman_tie_effect_by_method.csv
+tie_share_SpatialGAM,0.153106374747634,15.3%,"share of fits departing from the no tie form, SpatialGAM",table_spearman_tie_effect_by_method.csv
+tie_share_GeostatGP,0.262719698351882,26.3%,"share of fits departing from the no tie form, GeostatGP",table_spearman_tie_effect_by_method.csv
+tie_share_JointSDM,0.000863007909913878,0.1%,"share of fits departing from the no tie form, JointSDM",table_spearman_tie_effect_by_method.csv
+r2_min,-399.239198795693,-399,lowest R2 over converged fits,fit_metrics.rds
+r2_max,0.999999999598998,1.00,highest R2 over converged fits,fit_metrics.rds
+idr_range_factor,3.48877123695565,3.5,"median ratio of interdecile to range normalised residual, targets other than R2",table_harmonisation_theory.csv
+h_rr_TSS_Spearman,0.0550684737939461,0.055,"relative residual (range), TSS -> Spearman",table_harmonisation_theory.csv
+h_ri_TSS_Spearman,0.192121307435365,0.192,"relative residual (interdecile), TSS -> Spearman",table_harmonisation_theory.csv
+h_ts_TSS_Spearman,0.0307774708247809,0.031,"target shift, TSS -> Spearman",table_harmonisation_theory.csv
+h_ss_TSS_Spearman,0.0159456236298492,0.016,"survey shift, TSS -> Spearman",table_harmonisation_theory.csv
+h_stab_TSS_Spearman,0.99,0.99,"bootstrap stability of the range class, TSS -> Spearman",table_harmonisation_theory.csv
+h_stabidr_TSS_Spearman,0.86,0.86,"bootstrap stability of the interdecile class, TSS -> Spearman",table_harmonisation_theory.csv
+h_rr_AUC_TSS,0.0757195017003568,0.076,"relative residual (range), AUC -> TSS",table_harmonisation_theory.csv
+h_ri_AUC_TSS,0.273161536464709,0.273,"relative residual (interdecile), AUC -> TSS",table_harmonisation_theory.csv
+h_ts_AUC_TSS,0.0404664822628976,0.040,"target shift, AUC -> TSS",table_harmonisation_theory.csv
+h_ss_AUC_TSS,0.0218252544089335,0.022,"survey shift, AUC -> TSS",table_harmonisation_theory.csv
+h_stab_AUC_TSS,0.88,0.88,"bootstrap stability of the range class, AUC -> TSS",table_harmonisation_theory.csv
+h_stabidr_AUC_TSS,1,1.00,"bootstrap stability of the interdecile class, AUC -> TSS",table_harmonisation_theory.csv
+h_rr_TSS_AUC,0.116899610252404,0.117,"relative residual (range), TSS -> AUC",table_harmonisation_theory.csv
+h_ri_TSS_AUC,0.266524320706512,0.267,"relative residual (interdecile), TSS -> AUC",table_harmonisation_theory.csv
+h_ts_TSS_AUC,0.0198257326754697,0.020,"target shift, TSS -> AUC",table_harmonisation_theory.csv
+h_ss_TSS_AUC,0.0212087402329583,0.021,"survey shift, TSS -> AUC",table_harmonisation_theory.csv
+h_stab_TSS_AUC,1,1.00,"bootstrap stability of the range class, TSS -> AUC",table_harmonisation_theory.csv
+h_stabidr_TSS_AUC,1,1.00,"bootstrap stability of the interdecile class, TSS -> AUC",table_harmonisation_theory.csv
+h_rr_AUC_R2,0.0272922402201024,0.027,"relative residual (range), AUC -> R2",table_harmonisation_theory.csv
+h_ri_AUC_R2,4.68719399892476,4.687,"relative residual (interdecile), AUC -> R2",table_harmonisation_theory.csv
+h_ts_AUC_R2,2.96507013478413,2.965,"target shift, AUC -> R2",table_harmonisation_theory.csv
+h_ss_AUC_R2,0.631035483630482,0.631,"survey shift, AUC -> R2",table_harmonisation_theory.csv
+h_stab_AUC_R2,1,1.00,"bootstrap stability of the range class, AUC -> R2",table_harmonisation_theory.csv
+h_stabidr_AUC_R2,1,1.00,"bootstrap stability of the interdecile class, AUC -> R2",table_harmonisation_theory.csv
+h_rr_AUC_RMSE,0.150200002173996,0.150,"relative residual (range), AUC -> RMSE",table_harmonisation_theory.csv
+h_ri_AUC_RMSE,0.385559295314405,0.386,"relative residual (interdecile), AUC -> RMSE",table_harmonisation_theory.csv
+h_ts_AUC_RMSE,0.0344027876218113,0.034,"target shift, AUC -> RMSE",table_harmonisation_theory.csv
+h_ss_AUC_RMSE,0.0327158715950051,0.033,"survey shift, AUC -> RMSE",table_harmonisation_theory.csv
+h_stab_AUC_RMSE,1,1.00,"bootstrap stability of the range class, AUC -> RMSE",table_harmonisation_theory.csv
+h_stabidr_AUC_RMSE,1,1.00,"bootstrap stability of the interdecile class, AUC -> RMSE",table_harmonisation_theory.csv
+h_rr_AUC_Brier,0.121141563342894,0.121,"relative residual (range), AUC -> Brier",table_harmonisation_theory.csv
+h_ri_AUC_Brier,0.453693503651499,0.454,"relative residual (interdecile), AUC -> Brier",table_harmonisation_theory.csv
+h_ts_AUC_Brier,0.0426002129810761,0.043,"target shift, AUC -> Brier",table_harmonisation_theory.csv
+h_ss_AUC_Brier,0.0241502539511633,0.024,"survey shift, AUC -> Brier",table_harmonisation_theory.csv
+h_stab_AUC_Brier,1,1.00,"bootstrap stability of the range class, AUC -> Brier",table_harmonisation_theory.csv
+h_stabidr_AUC_Brier,1,1.00,"bootstrap stability of the interdecile class, AUC -> Brier",table_harmonisation_theory.csv
+h_rr_Brier_MAE,0.0563099936952378,0.056,"relative residual (range), Brier -> MAE",table_harmonisation_theory.csv
+h_ri_Brier_MAE,0.134805085602711,0.135,"relative residual (interdecile), Brier -> MAE",table_harmonisation_theory.csv
+h_ts_Brier_MAE,0.00989753389593883,0.010,"target shift, Brier -> MAE",table_harmonisation_theory.csv
+h_ss_Brier_MAE,0.0123873356894559,0.012,"survey shift, Brier -> MAE",table_harmonisation_theory.csv
+h_stab_Brier_MAE,1,1.00,"bootstrap stability of the range class, Brier -> MAE",table_harmonisation_theory.csv
+h_stabidr_Brier_MAE,1,1.00,"bootstrap stability of the interdecile class, Brier -> MAE",table_harmonisation_theory.csv
+h_rr_MAE_Brier,0.0437321319608592,0.044,"relative residual (range), MAE -> Brier",table_harmonisation_theory.csv
+h_ri_MAE_Brier,0.163783458162179,0.164,"relative residual (interdecile), MAE -> Brier",table_harmonisation_theory.csv
+h_ts_MAE_Brier,0.0187237367267959,0.019,"target shift, MAE -> Brier",table_harmonisation_theory.csv
+h_ss_MAE_Brier,0.00875458881396501,0.009,"survey shift, MAE -> Brier",table_harmonisation_theory.csv
+h_stab_MAE_Brier,1,1.00,"bootstrap stability of the range class, MAE -> Brier",table_harmonisation_theory.csv
+h_stabidr_MAE_Brier,1,1.00,"bootstrap stability of the interdecile class, MAE -> Brier",table_harmonisation_theory.csv
+h_rr_Brier_RMSE,0.0112346817993526,0.011,"relative residual (range), Brier -> RMSE",table_harmonisation_theory.csv
+h_ri_Brier_RMSE,0.0288391207386406,0.029,"relative residual (interdecile), Brier -> RMSE",table_harmonisation_theory.csv
+h_ts_Brier_RMSE,0.00958902487270571,0.010,"target shift, Brier -> RMSE",table_harmonisation_theory.csv
+h_ss_Brier_RMSE,0.00173038752610157,0.002,"survey shift, Brier -> RMSE",table_harmonisation_theory.csv
+h_stab_Brier_RMSE,1,1.00,"bootstrap stability of the range class, Brier -> RMSE",table_harmonisation_theory.csv
+h_stabidr_Brier_RMSE,1,1.00,"bootstrap stability of the interdecile class, Brier -> RMSE",table_harmonisation_theory.csv
+h_rr_RMSE_Brier,0.00123039623553173,0.001,"relative residual (range), RMSE -> Brier",table_harmonisation_theory.csv
+h_ri_RMSE_Brier,0.00460802026632218,0.005,"relative residual (interdecile), RMSE -> Brier",table_harmonisation_theory.csv
+h_ts_RMSE_Brier,0.00169363454740261,0.002,"target shift, RMSE -> Brier",table_harmonisation_theory.csv
+h_ss_RMSE_Brier,0.000275301462731194,0.000,"survey shift, RMSE -> Brier",table_harmonisation_theory.csv
+h_stab_RMSE_Brier,1,1.00,"bootstrap stability of the range class, RMSE -> Brier",table_harmonisation_theory.csv
+h_stabidr_RMSE_Brier,1,1.00,"bootstrap stability of the interdecile class, RMSE -> Brier",table_harmonisation_theory.csv
+h_rr_R2_RMSE,0.154086171908992,0.154,"relative residual (range), R2 -> RMSE",table_harmonisation_theory.csv
+h_ri_R2_RMSE,0.395534986677988,0.396,"relative residual (interdecile), R2 -> RMSE",table_harmonisation_theory.csv
+h_ts_R2_RMSE,0.0457975258217816,0.046,"target shift, R2 -> RMSE",table_harmonisation_theory.csv
+h_ss_R2_RMSE,0.0257539522916265,0.026,"survey shift, R2 -> RMSE",table_harmonisation_theory.csv
+h_stab_R2_RMSE,1,1.00,"bootstrap stability of the range class, R2 -> RMSE",table_harmonisation_theory.csv
+h_stabidr_R2_RMSE,1,1.00,"bootstrap stability of the interdecile class, R2 -> RMSE",table_harmonisation_theory.csv
+h_rr_RMSE_R2,0.0257195913819709,0.026,"relative residual (range), RMSE -> R2",table_harmonisation_theory.csv
+h_ri_RMSE_R2,4.41710586628858,4.417,"relative residual (interdecile), RMSE -> R2",table_harmonisation_theory.csv
+h_ts_RMSE_R2,1.4843197905694,1.484,"target shift, RMSE -> R2",table_harmonisation_theory.csv
+h_ss_RMSE_R2,0.771735620284079,0.772,"survey shift, RMSE -> R2",table_harmonisation_theory.csv
+h_stab_RMSE_R2,1,1.00,"bootstrap stability of the range class, RMSE -> R2",table_harmonisation_theory.csv
+h_stabidr_RMSE_R2,1,1.00,"bootstrap stability of the interdecile class, RMSE -> R2",table_harmonisation_theory.csv
+h_rr_Brier_R2,0.0254602274209033,0.025,"relative residual (range), Brier -> R2",table_harmonisation_theory.csv
+h_ri_Brier_R2,4.3725624652321,4.373,"relative residual (interdecile), Brier -> R2",table_harmonisation_theory.csv
+h_ts_Brier_R2,1.47528465596527,1.475,"target shift, Brier -> R2",table_harmonisation_theory.csv
+h_ss_Brier_R2,0.898686263455936,0.899,"survey shift, Brier -> R2",table_harmonisation_theory.csv
+h_stab_Brier_R2,1,1.00,"bootstrap stability of the range class, Brier -> R2",table_harmonisation_theory.csv
+h_stabidr_Brier_R2,1,1.00,"bootstrap stability of the interdecile class, Brier -> R2",table_harmonisation_theory.csv
+h_rr_R2_Brier,0.12101393823703,0.121,"relative residual (range), R2 -> Brier",table_harmonisation_theory.csv
+h_ri_R2_Brier,0.453215528299065,0.453,"relative residual (interdecile), R2 -> Brier",table_harmonisation_theory.csv
+h_ts_R2_Brier,0.0159891328765833,0.016,"target shift, R2 -> Brier",table_harmonisation_theory.csv
+h_ss_R2_Brier,0.0191107348794535,0.019,"survey shift, R2 -> Brier",table_harmonisation_theory.csv
+h_stab_R2_Brier,1,1.00,"bootstrap stability of the range class, R2 -> Brier",table_harmonisation_theory.csv
+h_stabidr_R2_Brier,1,1.00,"bootstrap stability of the interdecile class, R2 -> Brier",table_harmonisation_theory.csv
+h_rr_AUC_Spearman,0.0673711662056496,0.067,"relative residual (range), AUC -> Spearman",table_harmonisation_theory.csv
+h_ri_AUC_Spearman,0.235042586858429,0.235,"relative residual (interdecile), AUC -> Spearman",table_harmonisation_theory.csv
+h_ts_AUC_Spearman,0.0406973033336206,0.041,"target shift, AUC -> Spearman",table_harmonisation_theory.csv
+h_ss_AUC_Spearman,0.0209170541982809,0.021,"survey shift, AUC -> Spearman",table_harmonisation_theory.csv
+h_stab_AUC_Spearman,0.91,0.91,"bootstrap stability of the range class, AUC -> Spearman",table_harmonisation_theory.csv
+h_stabidr_AUC_Spearman,1,1.00,"bootstrap stability of the interdecile class, AUC -> Spearman",table_harmonisation_theory.csv
+h_rr_Spearman_AUC,0.0900083974157521,0.090,"relative residual (range), Spearman -> AUC",table_harmonisation_theory.csv
+h_ri_Spearman_AUC,0.204402711526922,0.204,"relative residual (interdecile), Spearman -> AUC",table_harmonisation_theory.csv
+h_ts_Spearman_AUC,0.022254794799487,0.022,"target shift, Spearman -> AUC",table_harmonisation_theory.csv
+h_ss_Spearman_AUC,0.0203783633795743,0.020,"survey shift, Spearman -> AUC",table_harmonisation_theory.csv
+h_stab_Spearman_AUC,1,1.00,"bootstrap stability of the range class, Spearman -> AUC",table_harmonisation_theory.csv
+h_stabidr_Spearman_AUC,1,1.00,"bootstrap stability of the interdecile class, Spearman -> AUC",table_harmonisation_theory.csv
+pool_exceeds,16,16,translations whose pooled residual exceeds the Corollary 3 bound,table_harmonisation_theory.csv
+within_below_pooled,15,15,translations whose within context residual is below the pooled residual,table_harmonisation_theory.csv
+survey_binds_16,3,3,"translations, of 16, for which the survey shift binds",table_harmonisation_theory.csv
+survey_binds_11,1,1,"translations, of the original 11, for which the survey shift binds",table_harmonisation_theory.csv
+stable_range_n,13,13,pairs whose range class held in every bootstrap replicate,table_harmonisation_theory.csv
+stable_idr_n,15,15,pairs whose interdecile class held in every bootstrap replicate,table_harmonisation_theory.csv
+asym_obs_AUC_TSS,2.3834751693763,2.38,"observed squared ratio of relative residuals, AUC -> TSS",table_directional_asymmetry.csv
+asym_occ_AUC_TSS,2.31300063142806,2.31,"range occupancy factor, AUC -> TSS",table_directional_asymmetry.csv
+asym_cr_AUC_TSS,1.03046900913887,1.03,"correlation ratio factor, AUC -> TSS",table_directional_asymmetry.csv
+asym_obs_AUC_Spearman,1.78491659853455,1.78,"observed squared ratio of relative residuals, AUC -> Spearman",table_directional_asymmetry.csv
+asym_occ_AUC_Spearman,2.29035795755946,2.29,"range occupancy factor, AUC -> Spearman",table_directional_asymmetry.csv
+asym_cr_AUC_Spearman,0.779318472190819,0.78,"correlation ratio factor, AUC -> Spearman",table_directional_asymmetry.csv
+calib_r2,0.23297000752076,23%,share of AUC to Brier residual explained by calibration slope and prevalence,table_calibration_explains_residual.csv
+calib_r2_int,0.238837239501836,24%,adding the calibration intercept,table_calibration_explains_residual.csv
+brt_share_fits,0.143810215825859,14.4%,BRT share of fits,table_calibration_explains_residual.csv
+brt_share_rss,0.136853053185154,13.7%,BRT share of residual sum of squares,table_calibration_explains_residual.csv
+refine_range_REF,0.262607172457553,0.263,"AUC to REF relative residual, range",table_translation_to_refinement.csv
+refine_idr_REF,0.350213557408167,0.350,"AUC to REF relative residual, interdecile",table_translation_to_refinement.csv
+refine_range_Brier,0.121141563342894,0.121,"AUC to Brier relative residual, range",table_translation_to_refinement.csv
+refine_idr_Brier,0.453693503651499,0.454,"AUC to Brier relative residual, interdecile",table_translation_to_refinement.csv
+prev_ts_pooled_R2_RMSE,0.0457975258217816,0.046,"target shift pooled, R2_RMSE",table_prevalence_conditioning.csv
+prev_ts_within_R2_RMSE,0.0211156141326484,0.021,"target shift within prevalence deciles, R2_RMSE",table_prevalence_conditioning.csv
+prev_ss_pooled_R2_RMSE,0.0257539522916265,0.026,"survey shift pooled, R2_RMSE",table_prevalence_conditioning.csv
+prev_ss_within_R2_RMSE,0.0186087177803157,0.019,"survey shift within prevalence deciles, R2_RMSE",table_prevalence_conditioning.csv
+prev_ts_pooled_R2_Brier,0.0159891328765833,0.016,"target shift pooled, R2_Brier",table_prevalence_conditioning.csv
+prev_ts_within_R2_Brier,0.0241263210193802,0.024,"target shift within prevalence deciles, R2_Brier",table_prevalence_conditioning.csv
+prev_ss_pooled_R2_Brier,0.0191107348794535,0.019,"survey shift pooled, R2_Brier",table_prevalence_conditioning.csv
+prev_ss_within_R2_Brier,0.0184463835126926,0.018,"survey shift within prevalence deciles, R2_Brier",table_prevalence_conditioning.csv
+prev_ts_pooled_AUC_R2,2.96507013478413,2.965,"target shift pooled, AUC_R2",table_prevalence_conditioning.csv
+prev_ts_within_AUC_R2,1.73828264134558,1.738,"target shift within prevalence deciles, AUC_R2",table_prevalence_conditioning.csv
+prev_ss_pooled_AUC_R2,0.631035483630482,0.631,"survey shift pooled, AUC_R2",table_prevalence_conditioning.csv
+prev_ss_within_AUC_R2,0.73086684222899,0.731,"survey shift within prevalence deciles, AUC_R2",table_prevalence_conditioning.csv
+prev_ts_pooled_AUC_Brier,0.0426002129810761,0.043,"target shift pooled, AUC_Brier",table_prevalence_conditioning.csv
+prev_ts_within_AUC_Brier,0.050284923150978,0.050,"target shift within prevalence deciles, AUC_Brier",table_prevalence_conditioning.csv
+prev_ss_pooled_AUC_Brier,0.0241502539511633,0.024,"survey shift pooled, AUC_Brier",table_prevalence_conditioning.csv
+prev_ss_within_AUC_Brier,0.0212822909501493,0.021,"survey shift within prevalence deciles, AUC_Brier",table_prevalence_conditioning.csv
+calslope_RF,0.431592021793612,0.43,"median calibration slope, RF",table_calibration_by_method.csv
+overconf_RF,0.793035198459399,79%,"share of fits with slope below 0.8, RF",table_calibration_by_method.csv
+gap_RF,0.291061162190939,0.291,"train minus test AUC, RF",table_overfitting_by_method.csv
+calslope_SpatialRF,0.772984532600569,0.77,"median calibration slope, SpatialRF",table_calibration_by_method.csv
+overconf_SpatialRF,0.516846853807704,52%,"share of fits with slope below 0.8, SpatialRF",table_calibration_by_method.csv
+gap_SpatialRF,0.278653846974035,0.279,"train minus test AUC, SpatialRF",table_overfitting_by_method.csv
+calslope_BRT,0.157262616764895,0.16,"median calibration slope, BRT",table_calibration_by_method.csv
+overconf_BRT,0.992879869394759,99%,"share of fits with slope below 0.8, BRT",table_calibration_by_method.csv
+gap_BRT,0.306890284987235,0.307,"train minus test AUC, BRT",table_overfitting_by_method.csv
+calslope_MaxEntPO,0.913158605258123,0.91,"median calibration slope, MaxEntPO",table_calibration_by_method.csv
+overconf_MaxEntPO,0.448580441640379,45%,"share of fits with slope below 0.8, MaxEntPO",table_calibration_by_method.csv
+gap_MaxEntPO,0.132005653465935,0.132,"train minus test AUC, MaxEntPO",table_overfitting_by_method.csv
+calslope_SpatialGAM,0.578441428670685,0.58,"median calibration slope, SpatialGAM",table_calibration_by_method.csv
+overconf_SpatialGAM,0.638871090585974,64%,"share of fits with slope below 0.8, SpatialGAM",table_calibration_by_method.csv
+gap_SpatialGAM,0.182948714757384,0.183,"train minus test AUC, SpatialGAM",table_overfitting_by_method.csv
+calslope_GeostatGP,0.340600204673446,0.34,"median calibration slope, GeostatGP",table_calibration_by_method.csv
+overconf_GeostatGP,0.794003527336861,79%,"share of fits with slope below 0.8, GeostatGP",table_calibration_by_method.csv
+gap_GeostatGP,0.208711754978386,0.209,"train minus test AUC, GeostatGP",table_overfitting_by_method.csv
+calslope_JointSDM,0.574222488387273,0.57,"median calibration slope, JointSDM",table_calibration_by_method.csv
+overconf_JointSDM,0.555765190427159,56%,"share of fits with slope below 0.8, JointSDM",table_calibration_by_method.csv
+gap_JointSDM,0.0658056753509936,0.066,"train minus test AUC, JointSDM",table_overfitting_by_method.csv
+optds_NSIBTS,0.114330066286194,0.114,"optimism, NS-IBTS",table_optimism_by_dataset_pooled.csv
+optds_se_NSIBTS,0.000528835637024463,0.0005,"its standard error, NS-IBTS",table_optimism_by_dataset_pooled.csv
+excess_NSIBTS,0.024905314118337,0.025,"spatial minus non spatial optimism, NS-IBTS",table_optimism_by_dataset.csv
+excess_exJ_NSIBTS,0.0479034696474903,0.048,"three spatial smoothers minus non spatial optimism, NS-IBTS",fit_metrics.rds
+optds_EBS,0.103310778336835,0.103,"optimism, EBS",table_optimism_by_dataset_pooled.csv
+optds_se_EBS,0.000509931694943411,0.0005,"its standard error, EBS",table_optimism_by_dataset_pooled.csv
+excess_EBS,0.019525997791839,0.020,"spatial minus non spatial optimism, EBS",table_optimism_by_dataset.csv
+excess_exJ_EBS,0.0408898105019154,0.041,"three spatial smoothers minus non spatial optimism, EBS",fit_metrics.rds
+optds_NEUS,0.100343936346609,0.100,"optimism, NEUS",table_optimism_by_dataset_pooled.csv
+optds_se_NEUS,0.000478540130961192,0.0005,"its standard error, NEUS",table_optimism_by_dataset_pooled.csv
+excess_NEUS,0.0027891318004645,0.003,"spatial minus non spatial optimism, NEUS",table_optimism_by_dataset.csv
+excess_exJ_NEUS,0.0249859033633295,0.025,"three spatial smoothers minus non spatial optimism, NEUS",fit_metrics.rds
+optds_GMEX,0.0615390468450625,0.062,"optimism, GMEX",table_optimism_by_dataset_pooled.csv
+optds_se_GMEX,0.000438908726448577,0.0004,"its standard error, GMEX",table_optimism_by_dataset_pooled.csv
+excess_GMEX,0.028700174029115,0.029,"spatial minus non spatial optimism, GMEX",table_optimism_by_dataset.csv
+excess_exJ_GMEX,0.046821632602145,0.047,"three spatial smoothers minus non spatial optimism, GMEX",fit_metrics.rds
+condauc_NSIBTS,0.726910886521566,0.727,"mean conditional AUC over paired draws, NS-IBTS",table_optimism_by_dataset_pooled.csv
+condauc_EBS,0.763668749107899,0.764,"mean conditional AUC over paired draws, EBS",table_optimism_by_dataset_pooled.csv
+condauc_NEUS,0.772034672881845,0.772,"mean conditional AUC over paired draws, NEUS",table_optimism_by_dataset_pooled.csv
+condauc_GMEX,0.658621820277843,0.659,"mean conditional AUC over paired draws, GMEX",table_optimism_by_dataset_pooled.csv
+optds_EBS_minus_NEUS,0.002966841990226,0.003,"optimism, EBS minus NEUS",table_optimism_by_dataset_pooled.csv
+hps_EBS,1.82,1.82,"hauls per unique station, EBS",table_survey_profiles.csv
+hps_min_other,1.15,1.15,"hauls per unique station, lowest of the other surveys",table_survey_profiles.csv
+hps_max_other,1.53,1.53,"hauls per unique station, highest of the other surveys",table_survey_profiles.csv
+optds_ratio,1.85784590674672,1.9,largest over smallest survey optimism,table_optimism_by_dataset_pooled.csv
+spadvds_GMEX_cond,0.0137423715158372,+0.014,"spatial advantage, GMEX conditional",table_spatial_effect_by_dataset.csv
+spadvds_exJ_GMEX_cond,0.0476573297349198,+0.048,"spatial advantage without JointSDM, GMEX conditional",fit_metrics.rds
+spadvds_NSIBTS_cond,0.0103217082542595,+0.010,"spatial advantage, NS-IBTS conditional",table_spatial_effect_by_dataset.csv
+spadvds_exJ_NSIBTS_cond,0.0559270108518754,+0.056,"spatial advantage without JointSDM, NS-IBTS conditional",fit_metrics.rds
+spadvds_EBS_cond,-0.0470553059121155,-0.047,"spatial advantage, EBS conditional",table_spatial_effect_by_dataset.csv
+spadvds_exJ_EBS_cond,0.0128800242995575,+0.013,"spatial advantage without JointSDM, EBS conditional",fit_metrics.rds
+spadvds_NEUS_cond,-0.0475507847561267,-0.048,"spatial advantage, NEUS conditional",table_spatial_effect_by_dataset.csv
+spadvds_exJ_NEUS_cond,0.00810955512430212,+0.008,"spatial advantage without JointSDM, NEUS conditional",fit_metrics.rds
+spadvds_GMEX_marg,-0.0145873565746341,-0.015,"spatial advantage, GMEX marginal",table_spatial_effect_by_dataset.csv
+spadvds_exJ_GMEX_marg,0.00110284963250795,+0.001,"spatial advantage without JointSDM, GMEX marginal",fit_metrics.rds
+spadvds_NSIBTS_marg,-0.0173398312021622,-0.017,"spatial advantage, NS-IBTS marginal",table_spatial_effect_by_dataset.csv
+spadvds_exJ_NSIBTS_marg,0.00564116446519258,+0.006,"spatial advantage without JointSDM, NS-IBTS marginal",fit_metrics.rds
+spadvds_NEUS_marg,-0.0476729053985905,-0.048,"spatial advantage, NEUS marginal",table_spatial_effect_by_dataset.csv
+spadvds_exJ_NEUS_marg,-0.0155050357684753,-0.016,"spatial advantage without JointSDM, NEUS marginal",fit_metrics.rds
+spadvds_EBS_marg,-0.0705450082942364,-0.071,"spatial advantage, EBS marginal",table_spatial_effect_by_dataset.csv
+spadvds_exJ_EBS_marg,-0.0298297837960899,-0.030,"spatial advantage without JointSDM, EBS marginal",fit_metrics.rds
+spadvds_negative,6,6,survey by target cells with a negative spatial advantage,table_spatial_effect_by_dataset.csv
+covlift_NSIBTS,0.0443701989767932,0.044,"coverage lift, NS-IBTS",table_coverage_by_dataset.csv
+covlift_EBS,0.0381040859912932,0.038,"coverage lift, EBS",table_coverage_by_dataset.csv
+covlift_GMEX,0.034450581061672,0.034,"coverage lift, GMEX",table_coverage_by_dataset.csv
+covlift_NEUS,0.0327424749143375,0.033,"coverage lift, NEUS",table_coverage_by_dataset.csv
+bopt_sp_n30,0.0670864271121705,0.067,"Brier optimism, spatial methods, n = 30",table_brier_optimism_by_n.csv
+bopt_sp_n50,0.0657149957690102,0.066,"Brier optimism, spatial methods, n = 50",table_brier_optimism_by_n.csv
+bopt_sp_n100,0.0647620779706294,0.065,"Brier optimism, spatial methods, n = 100",table_brier_optimism_by_n.csv
+bopt_sp_n200,0.0642481442344632,0.064,"Brier optimism, spatial methods, n = 200",table_brier_optimism_by_n.csv
+bopt_sp_n500,0.0655121355408846,0.066,"Brier optimism, spatial methods, n = 500",table_brier_optimism_by_n.csv
+bopt_ns_n30,0.013047545938789,0.013,"Brier optimism, non spatial methods, n = 30",table_brier_optimism_by_n.csv
+bopt_ns_n50,0.0199308954113651,0.020,"Brier optimism, non spatial methods, n = 50",table_brier_optimism_by_n.csv
+bopt_ns_n100,0.0265633243990688,0.027,"Brier optimism, non spatial methods, n = 100",table_brier_optimism_by_n.csv
+bopt_ns_n200,0.0312875542766311,0.031,"Brier optimism, non spatial methods, n = 200",table_brier_optimism_by_n.csv
+bopt_ns_n500,0.0368529587813604,0.037,"Brier optimism, non spatial methods, n = 500",table_brier_optimism_by_n.csv
+cor5_slope_ns,0.0187739500846642,0.0188,"slope on log10 n, non spatial methods","fit_metrics.rds (matched draws, as table_brier_optimism_slope.csv)"
+cor5_slope_sp,-0.00119112243331478,-0.0012,"slope on log10 n, spatial methods","fit_metrics.rds (matched draws, as table_brier_optimism_slope.csv)"
+cor5_int,-0.0199650725179789,-0.0200,interaction (spatial minus non spatial slope),"fit_metrics.rds (matched draws, as table_brier_optimism_slope.csv)"
+cor5_int_se_ols,0.000867686704906753,0.0009,"interaction standard error, ordinary least squares","fit_metrics.rds (matched draws, as table_brier_optimism_slope.csv)"
+cor5_slope_ns_se_cl,0.0029547388477302,0.0030,"non spatial slope standard error, clustered by species","fit_metrics.rds (matched draws, as table_brier_optimism_slope.csv)"
+cor5_slope_sp_se_cl,0.00358365514581408,0.0036,"spatial slope standard error, clustered by species","fit_metrics.rds (matched draws, as table_brier_optimism_slope.csv)"
+cor5_int_se_cl,0.00220492686454256,0.0022,"interaction standard error, clustered by species","fit_metrics.rds (matched draws, as table_brier_optimism_slope.csv)"
+cor5_int_p_cl,1.36874728542788e-19,1.4e-19,"interaction p value, clustered by species, normal reference","fit_metrics.rds (matched draws, as table_brier_optimism_slope.csv)"
+cor5sf_slope_ns,0.0230391149544007,0.0230,"slope on log10 n, non spatial methods","fit_metrics.rds (same fit, as table_corollary5_samefit.csv)"
+cor5sf_slope_sp,0.00319523842333174,0.0032,"slope on log10 n, spatial methods","fit_metrics.rds (same fit, as table_corollary5_samefit.csv)"
+cor5sf_int,-0.0198438765310689,-0.0198,interaction (spatial minus non spatial slope),"fit_metrics.rds (same fit, as table_corollary5_samefit.csv)"
+cor5sf_int_se_ols,0.000901172412729155,0.0009,"interaction standard error, ordinary least squares","fit_metrics.rds (same fit, as table_corollary5_samefit.csv)"
+cor5sf_slope_ns_se_cl,0.00315133962371489,0.0032,"non spatial slope standard error, clustered by species","fit_metrics.rds (same fit, as table_corollary5_samefit.csv)"
+cor5sf_slope_sp_se_cl,0.00397164885748792,0.0040,"spatial slope standard error, clustered by species","fit_metrics.rds (same fit, as table_corollary5_samefit.csv)"
+cor5sf_int_se_cl,0.00235031342870785,0.0024,"interaction standard error, clustered by species","fit_metrics.rds (same fit, as table_corollary5_samefit.csv)"
+cor5sf_int_p_cl,3.09092158092179e-17,3.1e-17,"interaction p value, clustered by species, normal reference","fit_metrics.rds (same fit, as table_corollary5_samefit.csv)"
+cor5exJ_slope_ns,0.0187739500846737,0.0188,"slope on log10 n, non spatial methods","fit_metrics.rds (matched draws, JointSDM excluded)"
+cor5exJ_slope_sp,7.37667118627834e-05,0.0001,"slope on log10 n, spatial methods","fit_metrics.rds (matched draws, JointSDM excluded)"
+cor5exJ_int,-0.0187001833728109,-0.0187,interaction (spatial minus non spatial slope),"fit_metrics.rds (matched draws, JointSDM excluded)"
+cor5exJ_int_se_ols,0.000937070899773846,0.0009,"interaction standard error, ordinary least squares","fit_metrics.rds (matched draws, JointSDM excluded)"
+cor5exJ_slope_ns_se_cl,0.00295474014909965,0.0030,"non spatial slope standard error, clustered by species","fit_metrics.rds (matched draws, JointSDM excluded)"
+cor5exJ_slope_sp_se_cl,0.003906065136596,0.0039,"spatial slope standard error, clustered by species","fit_metrics.rds (matched draws, JointSDM excluded)"
+cor5exJ_int_se_cl,0.00253851955413938,0.0025,"interaction standard error, clustered by species","fit_metrics.rds (matched draws, JointSDM excluded)"
+cor5exJ_int_p_cl,1.75073320123179e-13,1.8e-13,"interaction p value, clustered by species, normal reference","fit_metrics.rds (matched draws, JointSDM excluded)"
+lemma5_rho,-0.254479791314719,-0.25,"Spearman, marginal spatial advantage against covariate count",table_lemma5_covariate_count.csv
+lemma5_ns,-0.0102913859187808,-0.010,"mean marginal spatial advantage, NS-IBTS",table_lemma5_covariate_count.csv
+lemma5_other,-0.0437178492433306,-0.044,"mean marginal spatial advantage, three covariate surveys",table_lemma5_covariate_count.csv
+lemma5_rho_exJ,-0.270037507814309,-0.27,"as lemma5_rho, JointSDM excluded",fit_metrics.rds
+lemma5_ns_exJ,0.0120776519223838,+0.012,"as lemma5_ns, JointSDM excluded",fit_metrics.rds
+lemma5_other_exJ,-0.0144786707077839,-0.014,"as lemma5_other, JointSDM excluded",fit_metrics.rds
+mae2b_RF,-0.00938084502313881,-0.009,"median MAE minus 2 Brier, RF",table_mae_minus_2brier_by_method.csv
+mae2b_rho_RF,-0.182931572862081,-0.18,"Spearman with |log calibration slope|, RF",table_mae_minus_2brier_by_method.csv
+mae2b_SpatialRF,0.00110807713325833,0.001,"median MAE minus 2 Brier, SpatialRF",table_mae_minus_2brier_by_method.csv
+mae2b_rho_SpatialRF,0.0711042507309864,0.07,"Spearman with |log calibration slope|, SpatialRF",table_mae_minus_2brier_by_method.csv
+mae2b_BRT,-0.08426707528471,-0.084,"median MAE minus 2 Brier, BRT",table_mae_minus_2brier_by_method.csv
+mae2b_rho_BRT,-0.296493091154942,-0.30,"Spearman with |log calibration slope|, BRT",table_mae_minus_2brier_by_method.csv
+mae2b_MaxEntPO,-0.00258705557022815,-0.003,"median MAE minus 2 Brier, MaxEntPO",table_mae_minus_2brier_by_method.csv
+mae2b_rho_MaxEntPO,-0.0934920968320571,-0.09,"Spearman with |log calibration slope|, MaxEntPO",table_mae_minus_2brier_by_method.csv
+mae2b_SpatialGAM,-0.0153056105003912,-0.015,"median MAE minus 2 Brier, SpatialGAM",table_mae_minus_2brier_by_method.csv
+mae2b_rho_SpatialGAM,-0.357482246577027,-0.36,"Spearman with |log calibration slope|, SpatialGAM",table_mae_minus_2brier_by_method.csv
+mae2b_GeostatGP,-0.0361104531342752,-0.036,"median MAE minus 2 Brier, GeostatGP",table_mae_minus_2brier_by_method.csv
+mae2b_rho_GeostatGP,-0.523431982170657,-0.52,"Spearman with |log calibration slope|, GeostatGP",table_mae_minus_2brier_by_method.csv
+mae2b_JointSDM,0.00231586791182535,0.002,"median MAE minus 2 Brier, JointSDM",table_mae_minus_2brier_by_method.csv
+mae2b_rho_JointSDM,-0.0656070931841465,-0.07,"Spearman with |log calibration slope|, JointSDM",table_mae_minus_2brier_by_method.csv
+mae2b_rho_all,-0.268330727679091,-0.27,"Spearman of MAE minus 2 Brier with |log calibration slope|, all fits",fit_metrics.rds
+intr_EBS,-0.00461605422562429,-0.005,"intrinsic term (near oracle Brier, block minus extent), EBS",table_optimism_decomposition.csv
+est_sp_EBS,0.0672339967054073,0.067,"estimation term, spatial methods, EBS",table_optimism_decomposition.csv
+est_ns_EBS,0.0292652206692968,0.029,"estimation term, non spatial methods, EBS",table_optimism_decomposition.csv
+sfbopt_EBS,0.0463456098928785,0.046,"same fit Brier optimism, EBS",table_optimism_decomposition.csv
+intr_GMEX,-0.0156352758358738,-0.016,"intrinsic term (near oracle Brier, block minus extent), GMEX",table_optimism_decomposition.csv
+est_sp_GMEX,0.0734901757779457,0.073,"estimation term, spatial methods, GMEX",table_optimism_decomposition.csv
+est_ns_GMEX,0.0193029717586935,0.019,"estimation term, non spatial methods, GMEX",table_optimism_decomposition.csv
+sfbopt_GMEX,0.0346316568879058,0.035,"same fit Brier optimism, GMEX",table_optimism_decomposition.csv
+intr_NEUS,0.000257823567313186,+0.000,"intrinsic term (near oracle Brier, block minus extent), NEUS",table_optimism_decomposition.csv
+est_sp_NEUS,0.0918184694378752,0.092,"estimation term, spatial methods, NEUS",table_optimism_decomposition.csv
+est_ns_NEUS,0.0466318032117022,0.047,"estimation term, non spatial methods, NEUS",table_optimism_decomposition.csv
+sfbopt_NEUS,0.0727059043473905,0.073,"same fit Brier optimism, NEUS",table_optimism_decomposition.csv
+intr_NSIBTS,-0.0104392090151962,-0.010,"intrinsic term (near oracle Brier, block minus extent), NS-IBTS",table_optimism_decomposition.csv
+est_sp_NSIBTS,0.0687219643644275,0.069,"estimation term, spatial methods, NS-IBTS",table_optimism_decomposition.csv
+est_ns_NSIBTS,0.0309504774284604,0.031,"estimation term, non spatial methods, NS-IBTS",table_optimism_decomposition.csv
+sfbopt_NSIBTS,0.042089276475072,0.042,"same fit Brier optimism, NS-IBTS",table_optimism_decomposition.csv
+intr_var_ratio,0.174045261421223,0.17,"variance of intrinsic term over variance of Brier optimism, across surveys",table_optimism_decomposition.csv
+c4_Intercept,0.00290452145773781,0.003,"Corollary 4 coefficient, (Intercept)",table_corollary4_regression.csv
+c4se_Intercept,0.00712571080123396,0.0071,"its standard error, (Intercept)",table_corollary4_regression.csv
+c4_spatialTRUE,0.0257788789580926,0.026,"Corollary 4 coefficient, spatialTRUE",table_corollary4_regression.csv
+c4se_spatialTRUE,0.000556834914438171,0.0006,"its standard error, spatialTRUE",table_corollary4_regression.csv
+c4_log1psepscaled,0.0319779254220669,0.032,"Corollary 4 coefficient, log1p(sep_scaled)",table_corollary4_regression.csv
+c4se_log1psepscaled,0.00112720790000131,0.0011,"its standard error, log1p(sep_scaled)",table_corollary4_regression.csv
+c4_covshift,0.0085214088747493,0.009,"Corollary 4 coefficient, cov_shift",table_corollary4_regression.csv
+c4se_covshift,0.00041421597778955,0.0004,"its standard error, cov_shift",table_corollary4_regression.csv
+c4_log10n,0.0068792885668201,0.007,"Corollary 4 coefficient, log10n",table_corollary4_regression.csv
+c4se_log10n,0.00160444333177352,0.0016,"its standard error, log10n",table_corollary4_regression.csv
+c4_spatialTRUElog1psepscaled,0.0366478786636071,0.037,"Corollary 4 coefficient, spatialTRUE:log1p(sep_scaled)",table_corollary4_regression.csv
+c4se_spatialTRUElog1psepscaled,0.000971492459833856,0.0010,"its standard error, spatialTRUE:log1p(sep_scaled)",table_corollary4_regression.csv
+c4_spatialTRUEcovshift,0.0115411431191884,0.012,"Corollary 4 coefficient, spatialTRUE:cov_shift",table_corollary4_regression.csv
+c4se_spatialTRUEcovshift,0.000484229356559524,0.0005,"its standard error, spatialTRUE:cov_shift",table_corollary4_regression.csv
+fill_coef,-0.00358878934595218,-0.0036,marginal AUC per doubling of fill distance,table_fill_distance_model.csv
+fill_se,0.00836359276465951,0.0084,its standard error,table_fill_distance_model.csv
+corollary2_limit,0.000921503618212963,0.0009,N^(-1/2) for the converged fit count,fit_metrics.rds

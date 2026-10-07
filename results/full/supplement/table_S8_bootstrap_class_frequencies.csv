@@ -1,0 +1,17 @@
+translation,replicates,range_reliable,range_context,range_unreliable,idr_reliable,idr_context,idr_unreliable
+RMSE → Brier,100,100,0,0,100,0,0
+Brier → RMSE,100,100,0,0,100,0,0
+R2 → RMSE,100,0,100,0,0,0,100
+RMSE → R2,100,0,0,100,0,0,100
+R2 → Brier,100,0,100,0,0,0,100
+Brier → R2,100,0,0,100,0,0,100
+AUC → Spearman,100,91,9,0,0,0,100
+Spearman → AUC,100,100,0,0,0,0,100
+AUC → TSS,100,88,12,0,0,0,100
+TSS → AUC,100,0,100,0,0,0,100
+TSS → Spearman,100,99,1,0,0,14,86
+AUC → RMSE,100,0,100,0,0,0,100
+AUC → Brier,100,0,100,0,0,0,100
+AUC → R2,100,0,0,100,0,0,100
+MAE → Brier,100,100,0,0,0,100,0
+Brier → MAE,100,100,0,0,0,100,0

@@ -1,0 +1,5 @@
+result,n_fits,max_abs_dev,median_abs_dev,n_dev_over_1e3
+Theorem 1a  Brier = RMSE^2,1177622,1.11022302462516e-16,0,0
+"Theorem 1b  R2 = 1 - Brier / (pi (1 - pi)), pi = evaluation prevalence",1177622,5.51381162949838e-12,1.11022302462516e-16,0
+"Theorem 1c  Spearman = (AUC - 1/2) sqrt(12 n0 n1 / (n^2 - 1)), no tie form",1167052,0.913505510244266,2.48550788659041e-07,197627
+Proposition 1  MAE^2 <= Brier <= MAE,1177622,0,0,0

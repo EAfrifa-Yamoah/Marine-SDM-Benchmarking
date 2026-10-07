@@ -1,0 +1,4 @@
+contrast,slope_nonspatial,se_nonspatial_clustered,slope_spatial,se_spatial_clustered,difference,se_difference_ols,se_difference_clustered,p_clustered
+matched draws,0.0188,0.003,-0.00119,0.0036,-0.02,0.00087,0.0022,1.4e-19
+same fit,0.023,0.0032,0.0032,0.004,-0.0198,9e-04,0.0024,3.1e-17
+"matched draws, joint model excluded",0.0188,0.003,7.38e-05,0.0039,-0.0187,0.00094,0.0025,1.8e-13

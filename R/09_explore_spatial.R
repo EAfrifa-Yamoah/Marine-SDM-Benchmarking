@@ -16,6 +16,7 @@ suppressMessages({
 })
 source(file.path("R", "config.R"))
 source(file.path("R", "02_subsample.R"))
+source(file.path("R", "palette.R"))
 
 FIG <- PATHS$figures
 world <- map_data("world")
@@ -29,7 +30,7 @@ names(D) <- codes
 
 theme_map <- theme_minimal(base_size = 11) +
   theme(panel.grid = element_line(colour = "grey92", linewidth = 0.3),
-        panel.background = element_rect(fill = "#eef3f7", colour = NA),
+        panel.background = element_rect(fill = SEA_FILL, colour = NA),
         plot.title = element_text(face = "bold", size = 12),
         plot.subtitle = element_text(colour = "grey35", size = 9),
         legend.key.height = unit(0.9, "lines"))
@@ -41,18 +42,18 @@ bbox <- function(h, m = 0.5) list(
 
 land_layer <- function(bx)
   geom_polygon(data = world, aes(long, lat, group = group),
-               fill = "grey78", colour = "grey60", linewidth = 0.2)
+               fill = LAND_FILL, colour = LAND_LINE, linewidth = 0.2)
 
 # ---- (a) sampling profiles: haul point cloud with density -----------
 prof_panel <- function(code) {
   h <- as.data.frame(D[[code]]$hauls); bx <- bbox(h)
   ggplot() +
     land_layer(bx) +
-    geom_point(data = h, aes(lon, lat), colour = "#0b6b6b",
-               size = 0.14, alpha = 0.14) +
-    stat_density_2d(data = h, aes(lon, lat, colour = after_stat(level)),
-                    linewidth = 0.25, bins = 6) +
-    scale_colour_viridis(option = "inferno", end = 0.85, guide = "none") +
+    # hauls and density contours in neutral ink: hue is reserved for methods
+    geom_point(data = h, aes(lon, lat), colour = INK_MID,
+               size = 0.14, alpha = 0.16) +
+    stat_density_2d(data = h, aes(lon, lat), colour = INK,
+                    linewidth = 0.3, bins = 6) +
     coord_quickmap(xlim = bx$xlim, ylim = bx$ylim, expand = FALSE) +
     labs(title = regions[code],
          subtitle = sprintf("%s hauls", format(nrow(h), big.mark = ",")),
@@ -78,11 +79,10 @@ occ_panel <- function(code) {
     land_layer(bx) +
     geom_point(data = h, aes(lon, lat, colour = occ, size = occ,
                              alpha = occ)) +
-    # absent is rose rather than grey or orange: grey collided with the
-    # grey landmass, and orange is reserved for the test set in the design
-    # schematic. Rose and blue are mutually distinguishable under all
-    # common forms of colour blindness (Okabe and Ito palette).
-    scale_colour_manual(values = c(absent = "#CC79A7", present = "#0072B2"),
+    # presence and absence in neutral ink, dark against light: hue is
+    # reserved for methods across the manuscript (R/palette.R), and the
+    # pale land fill keeps light grey absences distinguishable from land
+    scale_colour_manual(values = c(absent = INK_LIGHT, present = INK),
                         name = NULL) +
     scale_size_manual(values = c(absent = 0.26, present = 0.6), guide = "none") +
     scale_alpha_manual(values = c(absent = 0.5, present = 0.9), guide = "none") +
@@ -122,7 +122,7 @@ y <- r$occ[[focal]][match(h$haul_id, r$occ$haul_id)]
 
 base_map <- function() list(
   land_layer(bx),
-  geom_point(data = h, aes(lon, lat), colour = "grey75", size = 0.18,
+  geom_point(data = h, aes(lon, lat), colour = "grey82", size = 0.18,
              alpha = 0.5),
   coord_quickmap(xlim = bx$xlim, ylim = bx$ylim, expand = FALSE),
   theme_map, labs(x = NULL, y = NULL))
@@ -133,9 +133,14 @@ cover_panel <- function(cov) {
                    target = "conditional", rep_id = 1, test_size = 300)
   tr <- sp$train
   ggplot() + base_map() +
-    geom_point(data = tr, aes(lon, lat), colour = "#b2182b", size = 0.7) +
+    geom_point(data = tr, aes(lon, lat, shape = "training"), colour = INK,
+               fill = "white", size = 0.8) +
+    scale_shape_manual(values = c(training = 16, test = 21), name = NULL,
+                       drop = FALSE, limits = c("training", "test")) +
     labs(title = sprintf("%s coverage", cov),
-         subtitle = sprintf("%d training hauls", nrow(tr)))
+         subtitle = sprintf("%d training hauls", nrow(tr))) +
+    # the training symbol is keyed once, in the legend of the lower row
+    guides(shape = "none")
 }
 target_panel <- function(tgt) {
   sp <- make_split(h_dt, y, r$env_used, n = 200, coverage = "distributed",
@@ -147,28 +152,32 @@ target_panel <- function(tgt) {
     g <- g + annotate("rect",
                       xmin = min(te$lon), xmax = max(te$lon),
                       ymin = min(te$lat), ymax = max(te$lat),
-                      fill = "#f1a340", alpha = 0.15)
+                      fill = "grey80", alpha = 0.35, colour = INK_MID,
+                      linetype = 2, linewidth = 0.3)
   }
   g +
-    geom_point(data = tr, aes(lon, lat, colour = "training"), size = 0.6) +
-    geom_point(data = te, aes(lon, lat, colour = "test"), size = 0.6) +
-    scale_colour_manual(values = c(training = "#2166ac", test = "#e08214"),
-                        name = NULL) +
+    # training filled, test open: the same two symbols as the upper row
+    geom_point(data = tr, aes(lon, lat, shape = "training"), colour = INK,
+               fill = "white", size = 0.8) +
+    geom_point(data = te, aes(lon, lat, shape = "test"), colour = INK,
+               fill = "white", size = 0.8, stroke = 0.35) +
+    scale_shape_manual(values = c(training = 16, test = 21), name = NULL,
+                       drop = FALSE, limits = c("training", "test")) +
     labs(title = sprintf("%s target", tgt),
          subtitle = if (tgt == "conditional")
            "test within training region (interpolation)" else
-           "test in held out block (extrapolation)") +
-    guides(colour = guide_legend(override.aes = list(size = 2.5)))
+           "test in held-out block (extrapolation)") +
+    guides(shape = guide_legend(override.aes = list(size = 2.5)))
 }
 row1 <- cover_panel("clustered") | cover_panel("intermediate") |
         cover_panel("distributed")
 row2 <- target_panel("conditional") | target_panel("marginal")
-p_design <- row1 / row2 + plot_layout(heights = c(1, 1)) +
-  plot_annotation(
-    title = sprintf("Subsampling design in space (%s, %s)", regions[sc], focal),
-    theme = theme(plot.title = element_text(face = "bold", size = 13)))
+# no figure title (the caption carries it) and one legend for all panels
+p_design <- (row1 / row2) + plot_layout(heights = c(1, 1.25), guides = "collect") &
+  theme(legend.position = "bottom", legend.direction = "horizontal")
+cat(sprintf("design schematic: %s, %s\n", regions[sc], focal))
 ggsave(file.path(FIG, "fig_design_schematic.png"), p_design,
-       width = 11, height = 8, dpi = 200, bg = "white")
+       width = 11, height = 6.4, dpi = 200, bg = "white")
 cat("wrote fig_design_schematic.png\n")
 
 cat("spatial exploration figures complete\n")

@@ -2,7 +2,7 @@
 
 Benchmark and harmonisation protocol for marine species distribution models under data limitation. Seven methods, four FISHGLOB surveys, factorial design over sample size, spatial coverage and inference target; validation optimism, metric translation and the `smdMetricHarmonise` R package. One command, resumable, multi core execution in R.
 
-This repository accompanies the manuscript *A benchmark harmonisation protocol for species distribution modelling under data limitation* (Afrifa-Yamoah, in preparation). It holds the complete pipeline, the pilot results reported in the manuscript, the theoretical verification, and the package; the manuscript itself is not distributed here.
+This repository accompanies the manuscript *A benchmark harmonisation protocol for species distribution modelling under data limitation* (Afrifa-Yamoah, in preparation). It holds the complete pipeline, the full scale results and the pilot results, the theoretical verification, the tables and figures of the Supporting Information, and the package; the manuscript itself is not distributed here.
 
 ## What the study does
 
@@ -42,8 +42,15 @@ R/
   07_harmonise.R            metric translations, reliability, package assembly
   08_figures.R              result figures
   09_explore_spatial.R      sampling profile, occurrence and design figures
+  07b_package_theory.R      refresh the package's theory table once the bootstrap of 10 is complete
   10_theory_analysis.R      identity verification, bootstrap, theory tests
+  11_manuscript_numbers.R   every number cited in the manuscript, with its definition and source
+  12_supplement.R           tables S1 to S16 and figures S1 to S9 of the Supporting Information
+  palette.R                 shared colour vocabulary: a hue identifies a method and nothing else
 data_processed/             full scale modelling frames (regenerable from 01)
+results/full/               full scale tables, manuscript_numbers.csv, bootstrap classes, near oracle fits
+results/full/supplement/    Supporting Information tables (table_S*.csv)
+figures/full/               full scale manuscript figures; figures/full/supplement/ holds figures S1 to S9
 results/pilot/              every table reported in the pilot manuscript
 figures/pilot/              every figure reported in the pilot manuscript
 smdMetricHarmonise/         R package source (version 0.3.0)
@@ -76,6 +83,22 @@ SMD_CORES=12 Rscript run_full_local.R
 
 The run checkpoints every design cell, so it can be stopped and resumed, split across machines by survey, and reduced for a first pass with `SMD_REPLICATES=25`. Details, runtime estimates and troubleshooting are in `docs/full_scale_execution.md`.
 
+## Full scale results
+
+The full study planned 1,260,000 fits (4 surveys × 15 species × 30 design cells × 100 replicates × 7 methods). Of 180,000 training and test splits, 11,747 were degenerate (all among rare and intermediate species), leaving 1,177,771 scored fits, of which 1,177,622 converged with finite metrics. Every table and figure of the manuscript and its Supporting Information is in `results/full/` and `figures/full/`, and `results/full/manuscript_numbers.csv` lists every number cited in the text with its definition and the file it comes from.
+
+After `run_full_local.R` has finished, the remaining stages are:
+
+```bash
+export SMD_SCALE=full SMD_REPLICATES=100
+Rscript R/10_theory_analysis.R      # repeat until it reports 100 of 100 bootstrap replicates
+Rscript R/07b_package_theory.R      # bring the package's theory table up to date
+Rscript R/11_manuscript_numbers.R   # results/manuscript_numbers.csv
+Rscript R/12_supplement.R           # results/supplement/ and figures/supplement/
+```
+
+The fit level table `results/fit_metrics.rds` (1,177,771 rows, about 150 MB) is not committed because of its size; it will be archived with a DOI, and every script above reads it from `results/`.
+
 ## The harmonisation package
 
 ```r
@@ -89,7 +112,7 @@ Translations among R2, RMSE and the Brier score are returned by identity when th
 
 ## Reproducibility
 
-A global seed drives a deterministic seed for every design cell, so each fit is reproducible regardless of the number of cores or the order in which cells run. Checkpoint folders are keyed to scale and replicate count, so pilot and full scale results never mix. The pilot tables and figures in this repository were produced from 9,800 fits (4 surveys × 3 species × 30 design cells × 4 replicates × 7 methods, less 40 degenerate splits).
+A global seed drives a deterministic seed for every design cell, so each fit is reproducible regardless of the number of cores or the order in which cells run. Checkpoint folders are keyed to scale and replicate count, so pilot and full scale results never mix. The full scale tables and figures were produced from 1,177,771 scored fits with R 4.3.3. The pilot tables and figures in this repository were produced from 9,800 fits (4 surveys × 3 species × 30 design cells × 4 replicates × 7 methods, less 40 degenerate splits).
 
 ## Data
 

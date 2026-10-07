@@ -185,9 +185,14 @@ fit_GeostatGP <- function(train, test, env_used, ...) {
 
 # ---------------------------------------------------------- JointSDM ---
 # multi species joint model. Fits all co occurring selected species on the
-# focal split's training hauls, sharing a global environmental response
-# and spatial field with species specific deviations, then predicts the
-# focal species. This is the borrowing strength mechanism a JSDM provides.
+# focal split's training hauls and predicts the focal species. The
+# environmental smooths and the spatial field are SHARED by all species;
+# the only species specific term is a random intercept, s(species, bs = 're').
+# The focal prediction is therefore the community surface shifted to the
+# focal species' prevalence, so within species discrimination weakens as
+# more species with different niches are pooled (15 per survey at full
+# scale against 3 in the pilot). Species specific responses with shared
+# latent structure, as in Hmsc, are not represented by this analogue.
 # co_occ_train / co_occ_test: data.frames of the other species' 0/1 labels
 # aligned to train / test rows (columns = species names, focal excluded).
 fit_JointSDM <- function(train, test, env_used, co_occ_train, co_occ_test,

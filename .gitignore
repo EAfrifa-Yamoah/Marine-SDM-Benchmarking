@@ -1,10 +1,12 @@
 # raw survey data: fetched by R/00_download_data.R (41 MB, FISHGLOB)
 data_raw/
-# run outputs (the pilot copies live under results/pilot and figures/pilot)
+# run outputs (the pilot and full scale copies live under results/{pilot,full} and figures/{pilot,full})
 results/*
 !results/pilot/
+!results/full/
 figures/*
 !figures/pilot/
+!figures/full/
 logs/
 # large duplicates and build artefacts
 *.rds.tmp-*

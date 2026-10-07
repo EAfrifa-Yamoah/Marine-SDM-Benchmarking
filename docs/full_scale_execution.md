@@ -52,6 +52,12 @@ Per survey, species and edge: near oracle in sample Brier in the block and the e
 -> 05b oracle -> 06 analysis -> 06b theory driven analyses -> 07 harmonisation and
 package -> 08 figures -> 09 spatial figures.
 
+After run_full_local.R, with SMD_SCALE=full and SMD_REPLICATES=100:
+10 theory analysis and species bootstrap (repeat until 100 of 100 replicates) -> 07b refresh
+the package's theory table -> 11 manuscript numbers (results/manuscript_numbers.csv) ->
+12 Supporting Information (results/supplement/, figures/supplement/). 12 takes under a
+minute; both read fit_metrics.rds, not the csv, which network backed storage can leave stale.
+
 ## Reproducibility
 A global seed drives a deterministic per cell seed, so every fit is reproducible
 regardless of core count or order. Checkpoints are keyed to scale and replicate count

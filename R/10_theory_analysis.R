@@ -59,8 +59,12 @@ ident <- data.table(
                      sum(d$MAE^2 > d$Brier + 1e-12 | d$Brier > d$MAE + 1e-12)))
 fwrite(ident, file.path(RES, "table_identity_verification.csv"))
 print(ident[, .(result, n_fits, max_abs_dev = signif(max_abs_dev, 3), n_dev_over_1e3)])
+# the deviation is attached as a column so that it is split by method
+# (as a free vector it was summed over all fits for every method)
+ds[, res_1c := res_1c]
 ties_by_method <- ds[, .(n = .N, n_tie_affected = sum(res_1c > 1e-3),
-                         max_dev = signif(max(res_1c), 3)), by = method][order(-n_tie_affected)]
+                         share = mean(res_1c > 1e-3),
+                         max_dev = signif(max(res_1c), 3)), by = method][order(-share)]
 fwrite(ties_by_method, file.path(RES, "table_spearman_tie_effect_by_method.csv"))
 
 # ---------------------------------------------------------------------
