@@ -187,7 +187,7 @@ writeLines(c(
   "Title: Harmonising Species Distribution Model Performance Metrics",
   "Version: 0.3.0",
   "Authors@R: person('Eben', 'Afrifa-Yamoah', role = c('aut', 'cre'),",
-  "    email = 'e.afrifayamoah@ecu.edu.au')",
+  "    email = 'e.afrifayamoah@ecu.edu.au', comment = c(ORCID = '0000-0003-1741-9249'))",
   paste("Description: Empirical translation between species distribution",
         "model performance metrics (AUC, TSS, Spearman, R2, RMSE, Brier)",
         "learned from a controlled benchmark across four marine survey",

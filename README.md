@@ -6,6 +6,8 @@ Benchmark and harmonisation protocol for marine species distribution models unde
 
 This repository accompanies the manuscript *A benchmark harmonisation protocol for species distribution modelling under data limitation* (Afrifa-Yamoah, in preparation). It holds the complete pipeline, the full scale results and the pilot results, the theoretical verification, the tables and figures of the Supporting Information, and the package; the manuscript itself is not distributed here.
 
+Author: Ebenezer Afrifa-Yamoah, School of Science, Edith Cowan University, ORCID [0000-0003-1741-9249](https://orcid.org/0000-0003-1741-9249).
+
 ## What the study does
 
 Species distribution models are compared on performance figures produced under different sample sizes, spatial designs, validation schemes and metrics, which makes those figures hard to reconcile. The benchmark holds the data generating process fixed, by drawing all training and test sets from the same real bottom trawl surveys, and varies the confounds factorially:
