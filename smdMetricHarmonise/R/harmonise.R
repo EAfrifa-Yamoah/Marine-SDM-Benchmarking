@@ -21,14 +21,21 @@
 #' @param to Target metric name, same set as \code{from}.
 #' @param context One of "overall", "conditional" or "marginal".
 #' @param prevalence Prevalence of the evaluation set on which the source
-#'   value was computed. Required for an exact translation among R2, RMSE
-#'   and Brier, which are related by the identity R2 = 1 - Brier /
-#'   (prevalence (1 - prevalence)). If omitted the learned mapping,
-#'   marginalised over the benchmark prevalence distribution, is returned
-#'   with a warning.
-#' @return A data frame with the input value, the translated estimate, an
-#'   approximate one standard deviation band, the reliability class and the
-#'   binding source of instability.
+#'   value was computed. Required for an exact translation into or out of
+#'   R2, by the identity R2 = 1 - Brier / (prevalence (1 - prevalence)).
+#'   RMSE to Brier and Brier to RMSE are always exact, because
+#'   Brier = RMSE^2, and do not use it. If omitted, R2 to RMSE returns the
+#'   learned mapping, marginalised over the benchmark prevalence
+#'   distribution, with a warning; RMSE to R2, Brier to R2 and R2 to Brier
+#'   stop with an error asking for the prevalence.
+#' @return A data frame with one row per input value and the columns value,
+#'   estimate, sd (an approximate one standard deviation band), reliability,
+#'   binding_shift (the larger source of instability), kind (identity,
+#'   exact, exact given prevalence, exact given score distribution or
+#'   empirical) and class_stability (share of
+#'   species bootstrap replicates that returned the same class). Values
+#'   outside the range of the source metric in the benchmark are mapped to
+#'   the nearest end of that range.
 #' @examples
 #' harmonise_metric(0.75, from = "AUC", to = "TSS")
 #' harmonise_metric(c(0.6, 0.8), "AUC", "TSS", context = "marginal")
@@ -44,9 +51,21 @@ harmonise_metric <- function(value, from, to, context = "overall", prevalence = 
                       reliability = "identity", binding_shift = NA_character_,
                       kind = "identity", class_stability = NA_real_))
 
+  # Brier = RMSE^2 holds for every fit, whatever the prevalence
+  if (all(c(from, to) %in% c("RMSE", "Brier"))) {
+    est <- if (from == "RMSE") value^2 else sqrt(pmax(value, 0))
+    return(data.frame(value = value, estimate = est, sd = 0,
+                      reliability = "exact", binding_shift = NA_character_,
+                      kind = "exact", class_stability = NA_real_))
+  }
+
   err <- c("R2", "RMSE", "Brier")
   if (from %in% err && to %in% err) {
     if (is.null(prevalence)) {
+      if (is.null(ht$maps[[paste(from, to, sep = "__")]]))
+        stop("the ", from, " to ", to, " translation needs the evaluation prevalence; ",
+             "supply prevalence = <prevalence of the evaluation set>, because no learned ",
+             "mapping is packaged for this direction", call. = FALSE)
       warning("the ", from, " to ", to, " translation is exact given the evaluation ",
               "prevalence, which was not supplied; the learned mapping marginalised ",
               "over the benchmark prevalence distribution is returned instead",
@@ -65,8 +84,9 @@ harmonise_metric <- function(value, from, to, context = "overall", prevalence = 
   key <- paste(from, to, sep = "__")
   m <- ht$maps[[key]]
   if (is.null(m))
-    stop("no learned mapping for ", from, " -> ", to,
-         "; available: ", paste(names(ht$maps), collapse = ", "))
+    stop("no learned mapping for the ", from, " to ", to, " translation; ",
+         "available directions: ", paste(names(ht$maps), collapse = ", "),
+         call. = FALSE)
 
   yv <- switch(context,
                overall = m$y_overall,

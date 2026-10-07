@@ -1,0 +1,304 @@
+---
+title: "Harmonising species distribution model performance metrics with smdMetricHarmonise"
+author: "Ebenezer Afrifa-Yamoah"
+date: "Package version `r packageVersion('smdMetricHarmonise')`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Harmonising species distribution model performance metrics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6.5, fig.height = 4.2,
+                      fig.align = "center", out.width = "90%")
+library(smdMetricHarmonise)
+ht <- harmonise_tables
+big <- function(x) format(x, big.mark = ",")
+r3 <- function(x) formatC(x, format = "f", digits = 3)
+```
+
+## What the package does
+
+Studies of species distribution models report performance in different currencies: discrimination through the area under the curve (AUC), the true skill statistic (TSS) or the Spearman correlation between prediction and outcome, explained variation through a coefficient of determination (R²), and error through the root mean squared error (RMSE) or the Brier score. A synthesis that pools these figures has to place them on a common scale first, and a translation is only useful if it says how far it can be trusted.
+
+`smdMetricHarmonise` translates a reported value on one metric into the expected value on another and returns, with every translation, an approximate uncertainty band, a reliability class and the stability of that class. The translations were learned from the `r big(ht$n_fits)` scored model fits of a controlled benchmark: seven modelling methods fitted to presence and absence data from `r ht$n_surveys` FISHGLOB bottom trawl surveys, fifteen species per survey, training samples of 30 to 500 hauls, three levels of spatial coverage and two inference targets. The tables in this installation were built on `r ht$built`.
+
+The package does not evaluate models. A translated value is the value expected for a model that scored the source value under the benchmark's conditions, not the value a particular model would have scored.
+
+## Installation
+
+```{r install, eval = FALSE}
+# install.packages("remotes")
+remotes::install_github("EAfrifa-Yamoah/Marine-SDM-Benchmarking",
+                        subdir = "smdMetricHarmonise", build_vignettes = TRUE)
+library(smdMetricHarmonise)
+vignette("smdMetricHarmonise")
+```
+
+The package has no dependencies beyond base R.
+
+## The six metrics and three kinds of translation
+
+The package works with six metrics.
+
+| Metric | Family | Better when |
+|---|---|---|
+| AUC | discrimination | higher |
+| TSS | discrimination | higher |
+| Spearman | discrimination (rank correlation of prediction and outcome) | higher |
+| R2 | explained variation | higher |
+| RMSE | error | lower |
+| Brier | error | lower |
+
+Translations between them are of four kinds, and the kind decides what the package can do.
+
+*Exact.* The Brier score is the mean squared difference between predicted probability and outcome, so it is the square of the RMSE for every model and every evaluation set. The package returns RMSE to Brier and Brier to RMSE exactly, with no further information.
+
+*Exact given the evaluation prevalence.* The coefficient of determination in its sum of squares form is a rescaled Brier score, R² = 1 − Brier / (π(1 − π)), where π is the prevalence of the evaluation set. With the prevalence supplied, the package returns translations into and out of R² exactly.
+
+*Exact given the score distribution.* With no tied predictions, the Spearman correlation equals AUC − 1/2 multiplied by a factor that depends only on the numbers of presences and absences in the evaluation set. Tied predictions, which tree ensembles in particular produce, change that factor through the variance of the tied ranks. A reported AUC rarely comes with this information, so the package treats AUC and Spearman translations as learned mappings.
+
+*Empirical.* Every other translation is a smooth regression of the target metric on the source metric across the benchmark fits. Its scatter reflects real differences between fits; for example, the AUC is unchanged by any monotone recalibration of the predictions while the Brier score is not, so no function of the AUC can recover the Brier score exactly.
+
+The packaged tables hold eleven learned mappings:
+
+```{r maps}
+names(ht$maps)
+```
+
+Two of them, RMSE to Brier and Brier to RMSE, are kept for reference only, because the package returns those directions exactly. Any pair of different metrics that is neither learned nor exact stops with an error that lists the available directions.
+
+## A first translation
+
+```{r first}
+harmonise_metric(0.75, from = "AUC", to = "TSS")
+```
+
+```{r first-values, include = FALSE}
+f1 <- harmonise_metric(0.75, from = "AUC", to = "TSS")
+```
+
+Each row of the result describes one translated value.
+
+- `value` and `estimate`: the source value and its translation, here an expected TSS of `r r3(f1$estimate)`.
+- `sd`: an approximate one standard deviation band for an individual translated value, the residual standard deviation of the mapping (`r r3(f1$sd)`). It describes how far single fits in the benchmark scattered around the mapping.
+- `reliability`: the class of the translation, here `r f1$reliability`.
+- `binding_shift`: whichever moved the mapping more, the inference target or the survey, here the `r f1$binding_shift`.
+- `kind`: identity, exact, exact given prevalence, exact given score distribution, or empirical, here `r f1$kind`.
+- `class_stability`: the share of 100 cluster bootstrap replicates over species within survey that returned the same class, here `r f1$class_stability`.
+
+The function is vectorised over `value`:
+
+```{r vector}
+harmonise_metric(c(0.65, 0.75, 0.85), from = "AUC", to = "TSS")
+```
+
+## Matching the inference target
+
+The relationship between two metrics depends on how the source value was validated. In the benchmark, the *conditional* target drew test data from within the region the model was trained on, as random k-fold cross-validation does. The *marginal* target drew test data from a held-out spatial block that the training data never occupied, as spatial block cross-validation or transfer to a new region does. The argument `context` selects the mapping learned under each target; `"overall"` pools them.
+
+```{r context}
+auc <- c(0.60, 0.70, 0.80, 0.90)
+data.frame(
+  AUC         = auc,
+  conditional = harmonise_metric(auc, "AUC", "TSS", context = "conditional")$estimate,
+  marginal    = harmonise_metric(auc, "AUC", "TSS", context = "marginal")$estimate,
+  overall     = harmonise_metric(auc, "AUC", "TSS", context = "overall")$estimate)
+```
+
+```{r context-figure, echo = FALSE, fig.cap = "Expected TSS for a given AUC under each inference target, over the range of AUC observed in the benchmark. Solid line, conditional target (interpolation); dashed line, marginal target (spatial extrapolation); dotted line, both pooled; grey band, plus and minus one residual standard deviation around the pooled mapping."}
+m <- ht$maps$AUC__TSS
+op <- par(mar = c(4.2, 4.2, 0.5, 0.5), las = 1)
+plot(m$x, m$y_overall, type = "n", xlab = "AUC (source)", ylab = "expected TSS",
+     ylim = range(c(m$y_overall - m$resid_sd, m$y_overall + m$resid_sd)))
+polygon(c(m$x, rev(m$x)), c(m$y_overall - m$resid_sd, rev(m$y_overall + m$resid_sd)),
+        col = "grey88", border = NA)
+lines(m$x, m$y_conditional, lwd = 2, lty = 1)
+lines(m$x, m$y_marginal, lwd = 2, lty = 2)
+lines(m$x, m$y_overall, lwd = 1.5, lty = 3)
+legend("topleft", c("conditional", "marginal", "pooled"), lty = c(1, 2, 3), lwd = c(2, 2, 1.5), bty = "n")
+par(op)
+```
+
+Use the context that matches the validation of the study the value came from. When a study does not say how it validated its model, use `"overall"` and treat the shift reported by `harmonisation_reliability()` as an additional source of uncertainty.
+
+## Exact translations among R², RMSE and the Brier score
+
+RMSE and the Brier score translate exactly, and `sd` is zero:
+
+```{r exact-rmse}
+harmonise_metric(c(0.20, 0.30), from = "RMSE", to = "Brier")
+```
+
+When the prevalence of the evaluation set is known, translations into and out of R² are exact as well:
+
+```{r exact}
+harmonise_metric(0.20, from = "R2", to = "Brier", prevalence = 0.25)
+```
+
+The prevalence matters a great deal. The same RMSE corresponds to very different values of R² at different prevalences, which is why pooled R² values from studies of rare and common species are not comparable:
+
+```{r prevalence}
+harmonise_metric(0.30, from = "RMSE", to = "R2", prevalence = c(0.05, 0.25, 0.50))
+```
+
+Without the prevalence, R² to RMSE falls back to a learned mapping, marginalised over the prevalences in the benchmark, with a warning:
+
+```{r no-prevalence}
+harmonise_metric(0.30, from = "R2", to = "RMSE")
+```
+
+The other three directions that involve R² (Brier to R², RMSE to R² and R² to Brier) have no packaged fallback and ask for the prevalence:
+
+```{r no-prevalence-error, error = TRUE}
+harmonise_metric(0.10, from = "Brier", to = "R2")
+```
+
+## Reading the reliability class
+
+`harmonisation_reliability()` returns the class of every learned translation and the quantities it rests on.
+
+```{r reliability}
+rel <- harmonisation_reliability()
+rel[, c("from", "to", "rel_resid", "context_divergence", "survey_divergence",
+        "binding_shift", "reliability")]
+```
+
+`rel_resid` is the residual standard deviation as a fraction of the range of the target metric. `context_divergence` is the mean absolute difference between the conditional and marginal mappings, and `survey_divergence` the mean pairwise difference between the mappings learned in each survey. A translation is *reliable* when `rel_resid` is below 0.10 and the larger shift is below 0.05, *context dependent* when they are below 0.18 and 0.10, and *unreliable* otherwise. The learned Brier to RMSE and RMSE to Brier mappings are marked *exact (analytic)*; their small residuals come from smoothing an exact curve, and `harmonise_metric()` does not use them.
+
+A practical reading of the classes:
+
+- **reliable**: use the translation and carry its `sd` into the synthesis;
+- **context dependent**: use it with the matching `context`, carry its `sd`, treat the binding shift as further uncertainty, and report how the synthesis changes when the translated values are left out;
+- **unreliable**: do not use it for synthesis; report the value on its original scale.
+
+An unreliable translation still returns its estimate, with a warning:
+
+```{r unreliable}
+harmonise_metric(0.80, from = "AUC", to = "R2")
+```
+
+```{r unreliable-values, include = FALSE}
+ar <- ht$maps$AUC__R2
+ar_rel <- rel[rel$from == "AUC" & rel$to == "R2", ]
+```
+
+The AUC cannot be translated into explained variation because the translation composes two steps: from discrimination to error, which calibration leaves undetermined, and from error to explained variation, which needs the prevalence. The table above shows a small `rel_resid` for this direction (`r r3(ar_rel$rel_resid)`), and it should not be read as precision. R² has no lower bound, and a few very poor fits stretch its range in the benchmark to `r formatC(ar$to_range, format = "f", digits = 0)` units, so a residual standard deviation of `r formatC(ar$resid_sd, format = "f", digits = 1)` R² units becomes a small fraction of that range. The class is decided by the shift between inference targets (`r formatC(ar_rel$context_divergence, format = "f", digits = 2)`), which is far above both thresholds.
+
+### Stability under the species bootstrap
+
+The class of each translation was recomputed in 100 cluster bootstrap replicates that resampled species within each survey. The share of replicates that returned the full data class is reported as `class_stability`. `harmonise_tables$theory` holds the complete set studied in the benchmark: the learned translations, the six directions among R², RMSE and the Brier score treated as learned mappings without the prevalence, and two directions involving the mean absolute error (MAE), which the benchmark examined but the package does not translate. It also gives the class under a stricter interdecile normalisation:
+
+```{r stability}
+th <- ht$theory
+th[, c("from", "to", "kind", "class_range", "stab_range", "class_idr", "binding_shift")]
+```
+
+`class_range` applies the rule `harmonise_metric()` uses to each direction as a learned mapping. For the learned directions it matches the `reliability` column of `harmonisation_reliability()`; for the directions among R², RMSE and the Brier score it describes the fallback without the prevalence, which `harmonise_metric()` uses only for R² to RMSE. `class_idr` normalises the residual by the interdecile range of the target metric instead of its full range; it is reported for comparison and is stricter, because the same thresholds apply to a smaller denominator.
+
+## Carrying the uncertainty into a synthesis
+
+The `sd` column is the scatter of individual benchmark fits around the mapping. It does not include the uncertainty of the source value itself, which the source study should report on the scale of the source metric. To combine the two, first carry the source standard error onto the target scale by the delta method, multiplying it by the local slope of the mapping, and then add the variances:
+
+```{r carry}
+src <- 0.78                         # AUC reported by the source study
+se_src <- 0.02                      # its standard error, on the AUC scale
+tr <- harmonise_metric(src, from = "AUC", to = "TSS", context = "marginal")
+h <- 0.01                           # half width of the finite difference
+slope <- diff(harmonise_metric(src + c(-h, h), "AUC", "TSS", context = "marginal")$estimate) / (2 * h)
+se_on_target <- abs(slope) * se_src
+c(estimate = tr$estimate, slope = slope,
+  sd_total = sqrt(tr$sd^2 + se_on_target^2))
+```
+
+The delta method assumes the mapping is close to linear over about two standard errors of the source value, which holds for the smooth mappings in the package away from the ends of their range. For an exact translation `sd` is zero and only the propagated uncertainty of the source value remains.
+
+## Values outside the benchmark's range
+
+Each mapping was learned over the range of the source metric observed in the benchmark. A value outside that range is mapped to the translation at the nearest end of the range, so the estimate stops changing:
+
+```{r support}
+range(ht$maps$AUC__TSS$x)
+harmonise_metric(c(0.95, 0.97, 0.99), from = "AUC", to = "TSS")$estimate
+```
+
+A short helper flags such values so that they can be reported or excluded:
+
+```{r support-helper}
+in_support <- function(value, from, to) {
+  x <- harmonise_tables$maps[[paste(from, to, sep = "__")]]$x
+  value >= min(x) & value <= max(x)
+}
+in_support(c(0.95, 0.97, 0.99), "AUC", "TSS")
+```
+
+## A worked example: placing reported values on one scale
+
+The values below are invented for illustration. Six studies report discrimination or explained variation for the same kind of model, with different validation designs. The aim is to place them on the AUC scale.
+
+```{r example-data}
+reported <- data.frame(
+  study      = c("A", "B", "C", "D", "E", "F"),
+  metric     = c("AUC", "TSS", "Spearman", "AUC", "R2", "TSS"),
+  value      = c(0.82, 0.45, 0.30, 0.71, 0.15, 0.62),
+  validation = c("random", "spatial block", "random", "spatial block", "random", "random"),
+  prevalence = c(NA, NA, NA, NA, 0.20, NA))
+reported
+```
+
+Random cross-validation corresponds to the conditional target and spatial block cross-validation to the marginal target. The function below translates one row, keeps the first clause of any warning or error as a short note, and so records why a value could not be translated.
+
+```{r example-function}
+to_scale <- function(row, target = "AUC") {
+  context <- if (row$validation == "spatial block") "marginal" else "conditional"
+  prev <- if (is.na(row$prevalence)) NULL else row$prevalence
+  note <- ""
+  keep <- function(cond) sub(";.*$", "", conditionMessage(cond))
+  res <- tryCatch(
+    withCallingHandlers(
+      harmonise_metric(row$value, from = row$metric, to = target,
+                       context = context, prevalence = prev),
+      warning = function(w) { note <<- keep(w); invokeRestart("muffleWarning") }),
+    error = function(e) { note <<- keep(e); NULL })
+  if (is.null(res))
+    return(data.frame(study = row$study, estimate = NA, sd = NA, reliability = NA,
+                      binding_shift = NA, in_support = NA, note = note))
+  data.frame(study = row$study, estimate = round(res$estimate, 3), sd = round(res$sd, 3),
+             reliability = res$reliability, binding_shift = res$binding_shift,
+             in_support = if (row$metric == target) TRUE else in_support(row$value, row$metric, target),
+             note = note)
+}
+harmonised <- do.call(rbind, lapply(split(reported, seq_len(nrow(reported))), to_scale))
+harmonised
+```
+
+Studies A and D already report the AUC and pass through unchanged. Study C is translated by a reliable mapping. Studies B and F come through a context dependent mapping whose `binding_shift` is the survey: in the benchmark it moved more between surveys than between inference targets, so the survey of origin matters for them. Choosing a context does not remove that shift, so the survey shift from `harmonisation_reliability()` (`r formatC(rel$survey_divergence[rel$from == "TSS" & rel$to == "AUC"], format = "f", digits = 3)` on the AUC scale) is a further uncertainty that `sd` does not include. Study E cannot be placed on the AUC scale, because no mapping runs from explained variation to discrimination; it belongs in a separate synthesis on the error scale, where its prevalence makes the translation exact:
+
+```{r example-error-scale}
+harmonise_metric(0.15, from = "R2", to = "Brier", prevalence = 0.20)
+```
+
+## What the translations can and cannot support
+
+- The mappings were learned from four marine bottom trawl surveys, seven methods, presence and absence data, and training samples of 30 to 500 hauls. Outside these conditions a translation is an extrapolation and its class does not carry over.
+- With four surveys, the survey shift is a lower bound on what a wider set of surveys would reveal.
+- Do not chain translations, for example TSS to AUC and then AUC to Brier. Errors compound, and the class of the chain is not the class of either step.
+- `sd` describes the scatter of fits around the mapping, not the uncertainty of the source value, and it is approximate: the residuals need not be normal.
+- Translations between the discrimination and error families are limited by calibration, and translations into explained variation need the prevalence; both are stated by the class and the kind, and both should be respected rather than worked around.
+
+## Citation
+
+```{r citation}
+citation("smdMetricHarmonise")
+```
+
+The benchmark code, results and these tables are archived on Zenodo (<https://doi.org/10.5281/zenodo.23202487>). Please also cite the accompanying article once it is published.
+
+## Session information
+
+```{r session}
+sessionInfo()
+```
