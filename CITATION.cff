@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 type: software
-title: "Marine SDM Benchmarking: benchmark harmonisation protocol for species distribution models under data limitation"
+title: "smdMetricHarmonise: an R-package for benchmark harmonisation protocol for species distribution models under data limitation"
 authors:
   - family-names: "Afrifa-Yamoah"
     given-names: "Ebenezer"
