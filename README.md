@@ -124,7 +124,7 @@ Survey data are from FISHGLOB (Maureaud et al. 2024, *Scientific Data*), https:/
 
 ## How to cite
 
-Afrifa-Yamoah, E. (2026). *Marine SDM Benchmarking: benchmark harmonisation protocol for species distribution models under data limitation* (Version 1.0.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.23202487
+Afrifa-Yamoah, E. (2026). *smdMetricHarmonise: an R-package for benchmark harmonisation protocol for species distribution models under data limitation* (Version 1.0.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.23202487
 
 Please also cite the accompanying article once it is published. GitHub's "Cite this repository" button gives the same reference from `CITATION.cff`.
 
