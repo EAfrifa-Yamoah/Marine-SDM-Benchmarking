@@ -1,0 +1,14 @@
+{
+  "title": "Marine SDM Benchmarking: benchmark harmonisation protocol for species distribution models under data limitation",
+  "upload_type": "software",
+  "creators": [
+    {
+      "name": "Afrifa-Yamoah, Ebenezer",
+      "affiliation": "Edith Cowan University",
+      "orcid": "0000-0003-1741-9249"
+    }
+  ],
+  "description": "R pipeline, full scale results and the smdMetricHarmonise R package for a factorial benchmark of seven species distribution modelling methods on four FISHGLOB bottom trawl surveys, covering sample size, spatial coverage, validation optimism and cross metric translation.",
+  "license": "mit",
+  "keywords": ["species distribution models", "benchmark", "spatial cross-validation", "performance metrics", "marine ecology", "R"]
+}

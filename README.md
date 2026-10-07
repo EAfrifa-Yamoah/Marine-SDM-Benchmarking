@@ -1,5 +1,7 @@
 # Marine SDM Benchmarking
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23202487.svg)](https://doi.org/10.5281/zenodo.23202487)
+
 Benchmark and harmonisation protocol for marine species distribution models under data limitation. Seven methods, four FISHGLOB surveys, factorial design over sample size, spatial coverage and inference target; validation optimism, metric translation and the `smdMetricHarmonise` R package. One command, resumable, multi core execution in R.
 
 This repository accompanies the manuscript *A benchmark harmonisation protocol for species distribution modelling under data limitation* (Afrifa-Yamoah, in preparation). It holds the complete pipeline, the full scale results and the pilot results, the theoretical verification, the tables and figures of the Supporting Information, and the package; the manuscript itself is not distributed here.
@@ -112,11 +114,17 @@ Translations among R2, RMSE and the Brier score are returned by identity when th
 
 ## Reproducibility
 
-A global seed drives a deterministic seed for every design cell, so each fit is reproducible regardless of the number of cores or the order in which cells run. Checkpoint folders are keyed to scale and replicate count, so pilot and full scale results never mix. The full scale tables and figures were produced from 1,177,771 scored fits with R 4.3.3. The pilot tables and figures in this repository were produced from 9,800 fits (4 surveys × 3 species × 30 design cells × 4 replicates × 7 methods, less 40 degenerate splits).
+Release v1.0.0 of this repository is archived on Zenodo, https://doi.org/10.5281/zenodo.23202487, and is the version used for the results reported in the manuscript. A global seed drives a deterministic seed for every design cell, so each fit is reproducible regardless of the number of cores or the order in which cells run. Checkpoint folders are keyed to scale and replicate count, so pilot and full scale results never mix. The full scale tables and figures were produced from 1,177,771 scored fits with R 4.3.3. The pilot tables and figures in this repository were produced from 9,800 fits (4 surveys × 3 species × 30 design cells × 4 replicates × 7 methods, less 40 degenerate splits).
 
 ## Data
 
 Survey data are from FISHGLOB (Maureaud et al. 2024, *Scientific Data*), https://github.com/fishglob/FishGlob_data, used under its licence.
+
+## How to cite
+
+Afrifa-Yamoah, E. (2026). *Marine SDM Benchmarking: benchmark harmonisation protocol for species distribution models under data limitation* (Version 1.0.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.23202487
+
+Please also cite the accompanying article once it is published. GitHub's "Cite this repository" button gives the same reference from `CITATION.cff`.
 
 ## Licence
 

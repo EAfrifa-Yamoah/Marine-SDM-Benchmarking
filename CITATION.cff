@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Marine SDM Benchmarking: benchmark harmonisation protocol for species distribution models under data limitation"
+authors:
+  - family-names: "Afrifa-Yamoah"
+    given-names: "Ebenezer"
+    orcid: "https://orcid.org/0000-0003-1741-9249"
+    affiliation: "Edith Cowan University"
+version: "1.0.0"
+doi: "10.5281/zenodo.23202487"
+date-released: "2026-10-07"
+license: MIT
+repository-code: "https://github.com/EAfrifa-Yamoah/Marine-SDM-Benchmarking"
+abstract: "R pipeline, full scale results and the smdMetricHarmonise R package for a factorial benchmark of seven species distribution modelling methods on four FISHGLOB bottom trawl surveys, covering sample size, spatial coverage, validation optimism and cross metric translation."
+keywords:
+  - species distribution models
+  - benchmark
+  - spatial cross-validation
+  - performance metrics
+  - marine ecology
+  - R
