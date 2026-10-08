@@ -1,11 +1,25 @@
 model,term,estimate,se
-Corollary 4: estimation term,(Intercept),0.0029,0.0071
-Corollary 4: estimation term,spatialTRUE,0.0258,0.00056
-Corollary 4: estimation term,log1p(sep_scaled),0.032,0.0011
-Corollary 4: estimation term,cov_shift,0.00852,0.00041
-Corollary 4: estimation term,log10n,0.00688,0.0016
-Corollary 4: estimation term,spatialTRUE:log1p(sep_scaled),0.0366,0.00097
-Corollary 4: estimation term,spatialTRUE:cov_shift,0.0115,0.00048
+"Corollary 4: estimation term, separation in identified residual ranges",(Intercept),0.00322,0.012
+"Corollary 4: estimation term, separation in identified residual ranges",spatialTRUE,0.0129,0.00088
+"Corollary 4: estimation term, separation in identified residual ranges",log1p(sep_scaled),0.0269,0.0013
+"Corollary 4: estimation term, separation in identified residual ranges",cov_shift,0.00928,0.00059
+"Corollary 4: estimation term, separation in identified residual ranges",log10n,0.00944,0.0026
+"Corollary 4: estimation term, separation in identified residual ranges",spatialTRUE:log1p(sep_scaled),0.0377,0.0011
+"Corollary 4: estimation term, separation in identified residual ranges",spatialTRUE:cov_shift,0.0113,0.00071
+"Corollary 4, original specification: single start ranges, all species",(Intercept),0.0029,0.0071
+"Corollary 4, original specification: single start ranges, all species",spatialTRUE,0.0258,0.00056
+"Corollary 4, original specification: single start ranges, all species",log1p(sep_scaled),0.032,0.0011
+"Corollary 4, original specification: single start ranges, all species",cov_shift,0.00852,0.00041
+"Corollary 4, original specification: single start ranges, all species",log10n,0.00688,0.0016
+"Corollary 4, original specification: single start ranges, all species",spatialTRUE:log1p(sep_scaled),0.0366,0.00097
+"Corollary 4, original specification: single start ranges, all species",spatialTRUE:cov_shift,0.0115,0.00048
+"Corollary 4, sensitivity: separation per 100 km, all species",(Intercept),-0.001,0.0057
+"Corollary 4, sensitivity: separation per 100 km, all species",spatialTRUE,0.0086,0.00063
+"Corollary 4, sensitivity: separation per 100 km, all species",log1p(sep_scaled),0.0106,0.00064
+"Corollary 4, sensitivity: separation per 100 km, all species",cov_shift,0.00957,0.00042
+"Corollary 4, sensitivity: separation per 100 km, all species",log10n,0.00863,0.0014
+"Corollary 4, sensitivity: separation per 100 km, all species",spatialTRUE:log1p(sep_scaled),0.047,0.00068
+"Corollary 4, sensitivity: separation per 100 km, all species",spatialTRUE:cov_shift,0.0059,0.00049
 Proposition 5: marginal AUC on fill distance,(Intercept),0.602,0.081
 Proposition 5: marginal AUC on fill distance,spatialTRUE,-0.00379,0.00079
 Proposition 5: marginal AUC on fill distance,familygam,0.00434,0.0011

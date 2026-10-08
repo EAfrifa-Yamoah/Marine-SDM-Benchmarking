@@ -1,0 +1,57 @@
+=== Theorem 1c: Spearman(p,y) = (AUC - 1/2) * sqrt(12 n0 n1 / (n^2 - 1)) (no ties) ===
+max |Spearman - affine(AUC)| over 200 random draws: 2.22e-16 
+large n approximation 2*sqrt(3*pi*(1-pi))*(AUC-1/2), pi = 0.25, AUC = 0.80 -> 0.45 
+
+=== Theorem 1b: R2 (sum of squares form) = 1 - Brier / (pi (1 - pi)) ===
+max |R2 - (1 - Brier/(pi(1-pi)))| over 200 draws: 1.78e-15 
+example: AUC unchanged and R2 reduced by an over confident recalibration
+ AUC calibrated: 0.77  AUC over confident: 0.77 
+ R2 calibrated: 0.099  R2 over confident: 0.031 
+
+=== Proposition 1: MAE^2 <= Brier <= MAE, and MAE = 2 Brier for a calibrated predictor ===
+MAE^2 <= Brier <= MAE held in all 200 draws: TRUE 
+calibrated predictor, n = 2e5: MAE = 0.3328  2*Brier = 0.3323 
+
+=== Proposition 2: AUC - 1/2 = integral of TSS(t) dF1(t); AUC - 1/2 <= max_t TSS(t) ===
+AUC - 1/2 = 0.2788  mean_{t ~ F1} TSS(t) = 0.2784  max_t TSS = 0.4278 
+
+=== Theorem 2: AUC invariant to monotone recalibration; Brier is not ===
+     slope    AUC  Brier
+[1,]   0.2 0.7992 0.2171
+[2,]   0.5 0.7992 0.1851
+[3,]   1.0 0.7992 0.1647
+[4,]   2.0 0.7992 0.1670
+[5,]   4.0 0.7992 0.1867
+
+=== Theorem 3: between group variance >= ((K-1)/(2K)) * Delta^2 ===
+inequality held in 1000 random draws: TRUE 
+K = 2: between variance 0.0225  bound 0.0225 (equality)
+
+=== Lemmas 3 and 4: posterior variance beyond kernel range equals prior; monotone in the design ===
+prior variance 1; posterior at s_far, n = 60: 1  n = 120: 1 
+posterior at interior point, n = 60: 0.2462  n = 120: 0.2034 
+
+=== Lemma 2: excess Brier equals L2 distance to the Bayes predictor ===
+Brier(phat) - Brier(pstar) = 0.00234  mean (phat - pstar)^2 = 0.00239 
+
+=== Fit count ===
+4 x 3 x 30 x 4 x 7 = 10080 ; minus 40 x 7 = 9800 
+full scale: 4 x 15 x 30 x 100 x 7 = 1,260,000 ; minus 11,747 degenerate splits x 7 = 1,177,771 
+
+=== Lemma 3 without compact support: |w_hat(s)| <= ||alpha||_1 kbar(h), v_n(s) >= tau2 - n kbar(h)^2 / sigma2 ===
+field bound held at all ten block points: TRUE | variance bound held: TRUE 
+
+=== Corollary 6: a positive floor on the block variance for every n (Matern); the squared exponential for contrast ===
+Matern, posterior variance at s with n = 50, 100, 200, 400, 800 : 0.3642, 0.338, 0.3227, 0.3078, 0.2932 
+Matern, floor on grids of 21, 31, 41 points a side: 0.1994, 0.1895, 0.1843 | every v_n above the finest floor: TRUE 
+squared exponential, posterior variance: 0.725, 0.672, 0.646, 0.611, 0.581 
+squared exponential, floor on the same grids: 0.0222, 0.0133, 0.0105 (falls as the grid is refined)
+
+=== Lemma 6: decompositions agreeing on the training locations differ on the block by f - f' up to (||alpha||_1 + ||alpha'||_1) kbar(h_B) ===
+decompositions agree on the training locations: TRUE 
+bound held at all 30 block points: TRUE | largest departure from f - f': 0.692 
+
+=== The fitted smooths: mgcv spatial bases used by the benchmark ===
+Gaussian process smooth: correlation type 3 (3 = Matern, smoothness 3/2), range 1.286 = largest distance between locations 1.286 | unpenalised null space dimension 3 (intercept and linear terms in the coordinates)
+thin plate regression spline: unpenalised null space dimension 3 
+Matern 3/2 correlation at a distance equal to the range: 0.736 

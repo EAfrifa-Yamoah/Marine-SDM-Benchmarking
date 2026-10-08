@@ -11,7 +11,7 @@
 # estimation term of any fit follows by subtraction in 06_analysis.R.
 #
 # Also fitted once per survey and species: the practical range of an
-# exponential variogram of the residuals of the spatial additive model,
+# exponential variogram of the residuals of an environmental additive model,
 # used to express block separation in correlation range units (Theorem 6).
 #
 # Fits are on large n and are capped at ORACLE_MAX_N hauls per region so
@@ -30,25 +30,8 @@ ds_codes <- if (nzchar(sel)) trimws(strsplit(sel, ",")[[1]]) else names(DATASETS
 out_file <- file.path(PATHS$results, "oracle_intrinsic.csv")
 done <- if (file.exists(out_file)) fread(out_file) else data.table()
 
-# exponential variogram practical range (km) from GAM residuals
-practical_range <- function(df, env_used, max_n = 1500L) {
-  if (nrow(df) > max_n) df <- df[sample.int(nrow(df), max_n), ]
-  fm <- as.formula(paste("y ~", paste(sprintf("s(%s, k=6)", env_used), collapse = " + ")))
-  m <- tryCatch(gam(fm, data = df, family = binomial()), error = function(e) NULL)
-  if (is.null(m)) return(NA_real_)
-  res <- residuals(m, type = "pearson")
-  latm <- mean(df$lat); xy <- cbind(df$lon * 111.32 * cos(latm * pi / 180), df$lat * 110.57)
-  D <- as.matrix(dist(xy)); G <- outer(res, res, "-")^2 / 2
-  ut <- upper.tri(D); h <- D[ut]; g <- G[ut]
-  keep <- h > 0 & h < quantile(h, 0.5); h <- h[keep]; g <- g[keep]
-  bins <- cut(h, breaks = 15); gh <- tapply(g, bins, mean); hh <- tapply(h, bins, mean)
-  ok <- is.finite(gh) & is.finite(hh); gh <- gh[ok]; hh <- hh[ok]
-  if (length(gh) < 5) return(NA_real_)
-  f <- function(par) sum((gh - (par[1] + par[2] * (1 - exp(-hh / par[3]))))^2)
-  o <- tryCatch(optim(c(min(gh), diff(range(gh)), mean(hh)), f, method = "L-BFGS-B",
-                      lower = c(0, 1e-6, 1e-3)), error = function(e) NULL)
-  if (is.null(o)) NA_real_ else 3 * o$par[3]
-}
+# practical range of the residual variogram (km), bounded by the largest lag examined: R/variogram.R
+source(file.path("R", "variogram.R"))
 
 rows <- list()
 for (code in ds_codes) {

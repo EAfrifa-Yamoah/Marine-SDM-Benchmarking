@@ -43,13 +43,15 @@ Per fit: REF and CAL (isotonic recalibration), the same fitted model evaluated o
 interpolation set inside the training window (interp_*), fill distance of the draw,
 separation of the block from the training locations, covariate energy distance.
 Per survey, species and edge: near oracle in sample Brier in the block and the extent
-(the intrinsic term of the optimism decomposition) and a variogram practical range.
+(the intrinsic term of the optimism decomposition). 05d_practical_range.R fits the residual variogram of
+every species by least squares profiled exactly over the range and records whether the range is
+identified; only identified ranges scale block separation (results/practical_range.csv).
 06b_theory_full.R turns these into the tables the manuscript's Section 4.4, 4.7 and
 4.8 placeholders call for; 07_harmonise.R rebuilds the package at the new scale.
 
 ## Stages (run_full_local.R)
 00 download (if needed) -> 01 preprocess (15 species/survey) -> 05 parallel simulation
--> 05b oracle -> 06 analysis -> 06b theory driven analyses -> 07 harmonisation and
+-> 05b oracle -> 05d practical range -> 06 analysis -> 06b theory driven analyses -> 07 harmonisation and
 package -> 08 figures -> 09 spatial figures.
 
 After run_full_local.R, with SMD_SCALE=full and SMD_REPLICATES=100:

@@ -2,3 +2,5 @@ contrast,slope_nonspatial,se_nonspatial_clustered,slope_spatial,se_spatial_clust
 matched draws,0.0188,0.003,-0.00119,0.0036,-0.02,0.00087,0.0022,1.4e-19
 same fit,0.023,0.0032,0.0032,0.004,-0.0198,9e-04,0.0024,3.1e-17
 "matched draws, joint model excluded",0.0188,0.003,7.38e-05,0.0039,-0.0187,0.00094,0.0025,1.8e-13
+"matched draws, 100 hauls or more",0.0147,0.0029,0.0012,0.004,-0.0135,0.0015,0.0023,2.9e-09
+"same fit, 100 hauls or more",0.0176,0.003,0.00456,0.0043,-0.0131,0.0016,0.0027,1.1e-06

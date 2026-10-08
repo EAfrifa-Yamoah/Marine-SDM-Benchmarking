@@ -40,7 +40,9 @@ R/
   05_run_sim_parallel.R     resumable, self healing parallel driver (full scale)
   05_run_sim_shard.R        socket free serial driver for one shard of the design (clusters, sandboxes)
   05c_merge_parts.R         merge replicate block checkpoints into results/fit_metrics.rds
-  05b_oracle.R              near oracle intrinsic term and variogram ranges
+  05b_oracle.R              near oracle intrinsic term
+  05d_practical_range.R     residual variogram range of every species, profiled exactly (uses variogram.R)
+  variogram.R               the profile least squares variogram fit and its identification regimes
   06_analysis.R             hierarchical models, variance partition, optimism
   06b_theory_full.R         analyses that need the full scale quantities
   07_harmonise.R            metric translations, reliability, package assembly
@@ -50,6 +52,7 @@ R/
   10_theory_analysis.R      identity verification, bootstrap, theory tests
   11_manuscript_numbers.R   every number cited in the manuscript, with its definition and source
   12_supplement.R           tables S1 to S16 and figures S1 to S9 of the Supporting Information
+  verify_identities.R       numerical checks of every identity and inequality of the theory (base R; mgcv for its last section)
   palette.R                 shared colour vocabulary: a hue identifies a method and nothing else
 data_processed/             full scale modelling frames (regenerable from 01)
 results/full/               full scale tables, manuscript_numbers.csv, bootstrap classes, near oracle fits

@@ -34,6 +34,10 @@ S1 <- rbindlist(lapply(names(SURVEY), function(code) {
   s[, .(survey = SURVEY[code], species = accepted_name, band, presences = n_pres,
         prevalence_pct = round(100 * prevalence, 1), niche_breadth = round(niche, 2), trophic_proxy = trophic)]
 }))
+# residual correlation range: identified practical range, or the regime when it is not identified
+pr_ <- tab("practical_range.csv")[, .(survey = SURVEY[dataset], species,
+  residual_range = ifelse(regime == "identified", sprintf("%.0f km", range_km), regime))]
+S1 <- merge(S1, pr_, by = c("survey", "species"), all.x = TRUE)
 S1[, band := factor(band, levels = c("rare", "intermediate", "common"))]
 setorder(S1, survey, band, -prevalence_pct)
 wt(S1, "table_S1_species.csv")
@@ -130,15 +134,18 @@ wt(S10, "table_S11_survey_heterogeneity.csv")
 # ---- Tables S12 to S14 theory tests: Corollary 5, Corollary 4, fill distance, decomposition
 N <- tab("manuscript_numbers.csv"); g <- function(k) N[key == k, value]
 
-S11 <- rbindlist(lapply(names(c(cor5 = 1, cor5sf = 1, cor5exJ = 1)), function(k) data.table(
-  contrast = c(cor5 = "matched draws", cor5sf = "same fit", cor5exJ = "matched draws, joint model excluded")[k],
+S11 <- rbindlist(lapply(names(c(cor5 = 1, cor5sf = 1, cor5exJ = 1, cor5n100 = 1, cor5sfn100 = 1)), function(k) data.table(
+  contrast = c(cor5 = "matched draws", cor5sf = "same fit", cor5exJ = "matched draws, joint model excluded", cor5n100 = "matched draws, 100 hauls or more", cor5sfn100 = "same fit, 100 hauls or more")[k],
   slope_nonspatial = signif(g(paste0(k, "_slope_ns")), 3), se_nonspatial_clustered = signif(g(paste0(k, "_slope_ns_se_cl")), 2),
   slope_spatial = signif(g(paste0(k, "_slope_sp")), 3), se_spatial_clustered = signif(g(paste0(k, "_slope_sp_se_cl")), 2),
   difference = signif(g(paste0(k, "_int")), 3), se_difference_ols = signif(g(paste0(k, "_int_se_ols")), 2),
   se_difference_clustered = signif(g(paste0(k, "_int_se_cl")), 2), p_clustered = signif(g(paste0(k, "_int_p_cl")), 2))))
 wt(S11, "table_S12_corollary5_slopes.csv")
 c4 <- tab("table_corollary4_regression.csv"); fd <- tab("table_fill_distance_model.csv"); od <- tab("table_optimism_decomposition.csv")
-S12 <- rbind(c4[, .(model = "Corollary 4: estimation term", term, estimate = signif(estimate, 3), se = signif(se, 2))],
+c4s <- tab("table_corollary4_sensitivity.csv")
+S12 <- rbind(c4[, .(model = "Corollary 4: estimation term, separation in identified residual ranges", term, estimate = signif(estimate, 3), se = signif(se, 2))],
+             c4s[startsWith(specification, "original"), .(model = "Corollary 4, original specification: single start ranges, all species", term, estimate = signif(estimate, 3), se = signif(se, 2))],
+             c4s[startsWith(specification, "separation per"), .(model = "Corollary 4, sensitivity: separation per 100 km, all species", term, estimate = signif(estimate, 3), se = signif(se, 2))],
              fd[, .(model = "Proposition 5: marginal AUC on fill distance", term, estimate = signif(estimate, 3), se = signif(se, 2))])
 wt(S12, "table_S13_corollary4_and_fill_distance.csv")
 S13 <- od[, .(survey = SURVEY[dataset], intrinsic = r3(intrinsic), estimation_spatial = r3(estimation_spatial),
@@ -272,16 +279,25 @@ p6 <- ggplot(fdd, aes(n, fill_km_mean, linetype = coverage, shape = coverage)) +
   theme_s + theme(legend.position = "bottom")
 savef(p6, "fig_S6_fill_distance.png", w = 11, h = 4)
 
-# S7 estimation term against scaled separation (Corollary 4)
+# S7 estimation term against scaled separation (Corollary 4), species whose residual
+# variogram identifies a correlation range (05d_practical_range.R)
 o <- tab("oracle_intrinsic.csv")
-ob <- o[, .(bs = median(brier_in_sample), range_km = practical_range_km[1]), by = .(dataset, species, edge, region)]
-ow <- dcast(ob, dataset + species + edge + range_km ~ region, value.var = "bs")[, intrinsic := block - extent]
+ob <- o[, .(bs = median(brier_in_sample)), by = .(dataset, species, edge, region)]
+ow <- dcast(ob, dataset + species + edge ~ region, value.var = "bs")[, intrinsic := block - extent]
+pr <- tab("practical_range.csv")[regime == "identified", .(dataset, species, range_km)]
 m <- d[converged == TRUE & target == "marginal" & is.finite(interp_Brier) & is.finite(Brier)]
-m <- merge(m, ow[, .(dataset, species, edge, intrinsic, range_km)], by = c("dataset", "species", "edge"))
+m <- merge(m, ow[, .(dataset, species, edge, intrinsic)], by = c("dataset", "species", "edge"))
+m <- merge(m, pr, by = c("dataset", "species"))
 m[, `:=`(estimation = (Brier - interp_Brier) - intrinsic, sep_scaled = separation_km / range_km)]
 m <- m[is.finite(estimation) & is.finite(sep_scaled)]
 m[, bin := cut(log1p(sep_scaled), breaks = quantile(log1p(sep_scaled), seq(0, 1, 0.1)), include.lowest = TRUE, labels = FALSE)]
 f7 <- m[, .(x = median(log1p(sep_scaled)), y = mean(estimation)), by = .(bin, cls = factor(ifelse(spatial, "spatial method", "non-spatial method"), levels = names(CLASS_SHAPES)))]
+# decile summary behind the caption: the spatial minus non-spatial gap, and how much of each
+# decile comes from species with short residual ranges
+f7s <- m[, .(log1p_separation_median = median(log1p(sep_scaled)), spatial = mean(estimation[spatial]),
+             nonspatial = mean(estimation[!spatial]), share_range_below_100km = mean(range_km < 100),
+             median_range_km = median(range_km)), by = bin][order(bin)][, gap := spatial - nonspatial]
+fwrite(f7s, file.path(SF, "fig_S7_deciles.csv"))
 p7 <- ggplot(f7, aes(x, y, shape = cls, linetype = cls)) + geom_line(colour = INK) + geom_point(colour = INK, fill = "white", size = 2.4, stroke = 0.9) +
   scale_shape_manual(values = CLASS_SHAPES, name = NULL) + scale_linetype_manual(values = c("spatial method" = "solid", "non-spatial method" = "22"), name = NULL) +
   labs(x = "log(1 + separation / practical range), decile medians", y = "estimation term of Brier optimism") + theme_s + theme(legend.position = "bottom")

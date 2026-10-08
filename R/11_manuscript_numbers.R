@@ -312,6 +312,10 @@ mm[, `:=`(sf_brier = Brier - interp_Brier, log10n = log10(n))]
 clus_fit(lm(sf_brier ~ log10n * spatial, data = mm), ~sp_id, "cor5sf", "fit_metrics.rds (same fit, as table_corollary5_samefit.csv)")
 wbx <- wb[method != "JointSDM"]
 clus_fit(lm(opt_brier ~ log10n * spatial, data = wbx), ~sp_id, "cor5exJ", "fit_metrics.rds (matched draws, JointSDM excluded)")
+# the spatial basis dimension is capped below 100 hauls (R/03_methods.R), so the slopes are
+# repeated on 100, 200 and 500 hauls, where every smoother has its design basis
+clus_fit(lm(opt_brier ~ log10n * spatial, data = wb[n >= 100]), ~sp_id, "cor5n100", "fit_metrics.rds (matched draws, n >= 100)")
+clus_fit(lm(sf_brier ~ log10n * spatial, data = mm[n >= 100]), ~sp_id, "cor5sfn100", "fit_metrics.rds (same fit, n >= 100)")
 lm5 <- tab("table_lemma5_covariate_count.csv")
 add("lemma5_rho", lm5$value[1], sprintf("%.2f", lm5$value[1]), "Spearman, marginal spatial advantage against covariate count", "table_lemma5_covariate_count.csv")
 add("lemma5_ns", lm5$value[3], fs(lm5$value[3]), "mean marginal spatial advantage, NS-IBTS", "table_lemma5_covariate_count.csv")
@@ -346,6 +350,32 @@ for (t in c4$term) {
   add(paste0("c4_", k), c4[term == t, estimate], f3(c4[term == t, estimate]), paste("Corollary 4 coefficient,", t), "table_corollary4_regression.csv")
   add(paste0("c4se_", k), c4[term == t, se], f4(c4[term == t, se]), paste("its standard error,", t), "table_corollary4_regression.csv")
 }
+add("c4_nspecies", c4$n_species[1], fc(c4$n_species[1]), "species in the Corollary 4 model (identified residual range)", "table_corollary4_regression.csv")
+add("c4_nfits", c4$n_fits[1], fc(c4$n_fits[1]), "fits in the Corollary 4 model (identified residual range)", "table_corollary4_regression.csv")
+c4s <- tab("table_corollary4_sensitivity.csv")
+for (sp in unique(c4s$specification)) {
+  pre <- if (startsWith(sp, "original")) "c4orig_" else "c4km_"
+  for (t in c4s[specification == sp, term]) {
+    k <- gsub("[^A-Za-z0-9]", "", t)
+    add(paste0(pre, k), c4s[specification == sp & term == t, estimate], f3(c4s[specification == sp & term == t, estimate]), paste0("Corollary 4 coefficient, ", sp, ", ", t), "table_corollary4_sensitivity.csv")
+    add(paste0(pre, "se_", k), c4s[specification == sp & term == t, se], f4(c4s[specification == sp & term == t, se]), paste0("its standard error, ", sp, ", ", t), "table_corollary4_sensitivity.csv")
+  }
+}
+# residual correlation range regimes (05d_practical_range.R) and block separation (06b, part G)
+pr <- tab("practical_range.csv")
+for (g in c("identified", "no structure", "below lags", "no sill"))
+  add(paste0("range_regime_", gsub(" ", "", g)), pr[regime == g, .N], fc(pr[regime == g, .N]), paste("species whose residual variogram regime is", g), "practical_range.csv")
+add("range_not_identified", pr[regime != "identified", .N], fc(pr[regime != "identified", .N]), "species whose residual variogram does not identify a range", "practical_range.csv")
+add("range_identified_median", pr[regime == "identified", median(range_km)], fc(pr[regime == "identified", median(range_km)]), "median identified practical range (km)", "practical_range.csv")
+add("range_identified_min", pr[regime == "identified", min(range_km)], fc(pr[regime == "identified", min(range_km)]), "smallest identified practical range (km)", "practical_range.csv")
+add("range_identified_max", pr[regime == "identified", max(range_km)], fc(pr[regime == "identified", max(range_km)]), "largest identified practical range (km)", "practical_range.csv")
+bs_ <- tab("table_block_separation.csv")[dataset == "all"]
+add("sep_draws", bs_$draws, fc(bs_$draws), "marginal draws with a recorded block separation", "table_block_separation.csv")
+add("sep_median_km", bs_$median_separation_km, fc(bs_$median_separation_km), "median separation of the block from its training locations (km)", "table_block_separation.csv")
+add("sep_draws_identified", bs_$draws_identified, fc(bs_$draws_identified), "marginal draws of species with an identified residual range", "table_block_separation.csv")
+add("sep_scaled_median_identified", bs_$median_scaled_identified, sprintf("%.2f", bs_$median_scaled_identified), "median separation in identified practical ranges", "table_block_separation.csv")
+add("sep_share_beyond_identified", bs_$share_beyond_one_range_identified, fp(bs_$share_beyond_one_range_identified, 0), "share of those draws with the block one practical range or more away", "table_block_separation.csv")
+add("matern32_corr_at_range", 2 * exp(-1), sprintf("%.2f", 2 * exp(-1)), "Matern (nu = 3/2) correlation at a distance equal to its range parameter, (1 + 1) exp(-1)", "analytic")
 fd <- tab("table_fill_distance_model.csv")
 add("fill_coef", fd[term == "log2_fill", estimate], sprintf("%+.4f", fd[term == "log2_fill", estimate]), "marginal AUC per doubling of fill distance", "table_fill_distance_model.csv")
 add("fill_se", fd[term == "log2_fill", se], f4(fd[term == "log2_fill", se]), "its standard error", "table_fill_distance_model.csv")

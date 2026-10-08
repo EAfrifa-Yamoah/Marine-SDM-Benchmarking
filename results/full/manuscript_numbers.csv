@@ -280,7 +280,7 @@ calib_r2_int,0.238837239501836,24%,adding the calibration intercept,table_calibr
 brt_share_fits,0.143810215825859,14.4%,BRT share of fits,table_calibration_explains_residual.csv
 brt_share_rss,0.136853053185154,13.7%,BRT share of residual sum of squares,table_calibration_explains_residual.csv
 refine_range_REF,0.262607172457553,0.263,"AUC to REF relative residual, range",table_translation_to_refinement.csv
-refine_idr_REF,0.350213557408167,0.350,"AUC to REF relative residual, interdecile",table_translation_to_refinement.csv
+refine_idr_REF,0.350213557408166,0.350,"AUC to REF relative residual, interdecile",table_translation_to_refinement.csv
 refine_range_Brier,0.121141563342894,0.121,"AUC to Brier relative residual, range",table_translation_to_refinement.csv
 refine_idr_Brier,0.453693503651499,0.454,"AUC to Brier relative residual, interdecile",table_translation_to_refinement.csv
 prev_ts_pooled_R2_RMSE,0.0457975258217816,0.046,"target shift pooled, R2_RMSE",table_prevalence_conditioning.csv
@@ -400,6 +400,22 @@ cor5exJ_slope_ns_se_cl,0.00295474014909965,0.0030,"non spatial slope standard er
 cor5exJ_slope_sp_se_cl,0.003906065136596,0.0039,"spatial slope standard error, clustered by species","fit_metrics.rds (matched draws, JointSDM excluded)"
 cor5exJ_int_se_cl,0.00253851955413938,0.0025,"interaction standard error, clustered by species","fit_metrics.rds (matched draws, JointSDM excluded)"
 cor5exJ_int_p_cl,1.75073320123179e-13,1.8e-13,"interaction p value, clustered by species, normal reference","fit_metrics.rds (matched draws, JointSDM excluded)"
+cor5n100_slope_ns,0.014675548676432,0.0147,"slope on log10 n, non spatial methods","fit_metrics.rds (matched draws, n >= 100)"
+cor5n100_slope_sp,0.0012034415679872,0.0012,"slope on log10 n, spatial methods","fit_metrics.rds (matched draws, n >= 100)"
+cor5n100_int,-0.0134721071084448,-0.0135,interaction (spatial minus non spatial slope),"fit_metrics.rds (matched draws, n >= 100)"
+cor5n100_int_se_ols,0.00149297108341766,0.0015,"interaction standard error, ordinary least squares","fit_metrics.rds (matched draws, n >= 100)"
+cor5n100_slope_ns_se_cl,0.00286148417915805,0.0029,"non spatial slope standard error, clustered by species","fit_metrics.rds (matched draws, n >= 100)"
+cor5n100_slope_sp_se_cl,0.00399113381071831,0.0040,"spatial slope standard error, clustered by species","fit_metrics.rds (matched draws, n >= 100)"
+cor5n100_int_se_cl,0.00226984066241173,0.0023,"interaction standard error, clustered by species","fit_metrics.rds (matched draws, n >= 100)"
+cor5n100_int_p_cl,2.93370256256297e-09,2.9e-09,"interaction p value, clustered by species, normal reference","fit_metrics.rds (matched draws, n >= 100)"
+cor5sfn100_slope_ns,0.0176363611890101,0.0176,"slope on log10 n, non spatial methods","fit_metrics.rds (same fit, n >= 100)"
+cor5sfn100_slope_sp,0.00456446293497074,0.0046,"slope on log10 n, spatial methods","fit_metrics.rds (same fit, n >= 100)"
+cor5sfn100_int,-0.0130718982540393,-0.0131,interaction (spatial minus non spatial slope),"fit_metrics.rds (same fit, n >= 100)"
+cor5sfn100_int_se_ols,0.0015869027220473,0.0016,"interaction standard error, ordinary least squares","fit_metrics.rds (same fit, n >= 100)"
+cor5sfn100_slope_ns_se_cl,0.00297866940246611,0.0030,"non spatial slope standard error, clustered by species","fit_metrics.rds (same fit, n >= 100)"
+cor5sfn100_slope_sp_se_cl,0.0043269992245817,0.0043,"spatial slope standard error, clustered by species","fit_metrics.rds (same fit, n >= 100)"
+cor5sfn100_int_se_cl,0.00267966473199845,0.0027,"interaction standard error, clustered by species","fit_metrics.rds (same fit, n >= 100)"
+cor5sfn100_int_p_cl,1.07066895827354e-06,1.1e-06,"interaction p value, clustered by species, normal reference","fit_metrics.rds (same fit, n >= 100)"
 lemma5_rho,-0.254479791314719,-0.25,"Spearman, marginal spatial advantage against covariate count",table_lemma5_covariate_count.csv
 lemma5_ns,-0.0102913859187808,-0.010,"mean marginal spatial advantage, NS-IBTS",table_lemma5_covariate_count.csv
 lemma5_other,-0.0437178492433306,-0.044,"mean marginal spatial advantage, three covariate surveys",table_lemma5_covariate_count.csv
@@ -438,20 +454,64 @@ est_sp_NSIBTS,0.0687219643644275,0.069,"estimation term, spatial methods, NS-IBT
 est_ns_NSIBTS,0.0309504774284604,0.031,"estimation term, non spatial methods, NS-IBTS",table_optimism_decomposition.csv
 sfbopt_NSIBTS,0.042089276475072,0.042,"same fit Brier optimism, NS-IBTS",table_optimism_decomposition.csv
 intr_var_ratio,0.174045261421223,0.17,"variance of intrinsic term over variance of Brier optimism, across surveys",table_optimism_decomposition.csv
-c4_Intercept,0.00290452145773781,0.003,"Corollary 4 coefficient, (Intercept)",table_corollary4_regression.csv
-c4se_Intercept,0.00712571080123396,0.0071,"its standard error, (Intercept)",table_corollary4_regression.csv
-c4_spatialTRUE,0.0257788789580926,0.026,"Corollary 4 coefficient, spatialTRUE",table_corollary4_regression.csv
-c4se_spatialTRUE,0.000556834914438171,0.0006,"its standard error, spatialTRUE",table_corollary4_regression.csv
-c4_log1psepscaled,0.0319779254220669,0.032,"Corollary 4 coefficient, log1p(sep_scaled)",table_corollary4_regression.csv
-c4se_log1psepscaled,0.00112720790000131,0.0011,"its standard error, log1p(sep_scaled)",table_corollary4_regression.csv
-c4_covshift,0.0085214088747493,0.009,"Corollary 4 coefficient, cov_shift",table_corollary4_regression.csv
-c4se_covshift,0.00041421597778955,0.0004,"its standard error, cov_shift",table_corollary4_regression.csv
-c4_log10n,0.0068792885668201,0.007,"Corollary 4 coefficient, log10n",table_corollary4_regression.csv
-c4se_log10n,0.00160444333177352,0.0016,"its standard error, log10n",table_corollary4_regression.csv
-c4_spatialTRUElog1psepscaled,0.0366478786636071,0.037,"Corollary 4 coefficient, spatialTRUE:log1p(sep_scaled)",table_corollary4_regression.csv
-c4se_spatialTRUElog1psepscaled,0.000971492459833856,0.0010,"its standard error, spatialTRUE:log1p(sep_scaled)",table_corollary4_regression.csv
-c4_spatialTRUEcovshift,0.0115411431191884,0.012,"Corollary 4 coefficient, spatialTRUE:cov_shift",table_corollary4_regression.csv
-c4se_spatialTRUEcovshift,0.000484229356559524,0.0005,"its standard error, spatialTRUE:cov_shift",table_corollary4_regression.csv
-fill_coef,-0.00358878934595218,-0.0036,marginal AUC per doubling of fill distance,table_fill_distance_model.csv
-fill_se,0.00836359276465951,0.0084,its standard error,table_fill_distance_model.csv
+c4_Intercept,0.00321610226311475,0.003,"Corollary 4 coefficient, (Intercept)",table_corollary4_regression.csv
+c4se_Intercept,0.0118285708090917,0.0118,"its standard error, (Intercept)",table_corollary4_regression.csv
+c4_spatialTRUE,0.0129207019638014,0.013,"Corollary 4 coefficient, spatialTRUE",table_corollary4_regression.csv
+c4se_spatialTRUE,0.000884053886944301,0.0009,"its standard error, spatialTRUE",table_corollary4_regression.csv
+c4_log1psepscaled,0.0268937185996063,0.027,"Corollary 4 coefficient, log1p(sep_scaled)",table_corollary4_regression.csv
+c4se_log1psepscaled,0.00126424384983731,0.0013,"its standard error, log1p(sep_scaled)",table_corollary4_regression.csv
+c4_covshift,0.00928129064377802,0.009,"Corollary 4 coefficient, cov_shift",table_corollary4_regression.csv
+c4se_covshift,0.000590669329341907,0.0006,"its standard error, cov_shift",table_corollary4_regression.csv
+c4_log10n,0.00944156521523268,0.009,"Corollary 4 coefficient, log10n",table_corollary4_regression.csv
+c4se_log10n,0.00256776785970076,0.0026,"its standard error, log10n",table_corollary4_regression.csv
+c4_spatialTRUElog1psepscaled,0.0376803308508674,0.038,"Corollary 4 coefficient, spatialTRUE:log1p(sep_scaled)",table_corollary4_regression.csv
+c4se_spatialTRUElog1psepscaled,0.00112757677772615,0.0011,"its standard error, spatialTRUE:log1p(sep_scaled)",table_corollary4_regression.csv
+c4_spatialTRUEcovshift,0.0112676027899978,0.011,"Corollary 4 coefficient, spatialTRUE:cov_shift",table_corollary4_regression.csv
+c4se_spatialTRUEcovshift,0.000713275979102567,0.0007,"its standard error, spatialTRUE:cov_shift",table_corollary4_regression.csv
+c4_nspecies,25,25,species in the Corollary 4 model (identified residual range),table_corollary4_regression.csv
+c4_nfits,249349,"249,349",fits in the Corollary 4 model (identified residual range),table_corollary4_regression.csv
+c4orig_Intercept,0.00290453142727837,0.003,"Corollary 4 coefficient, original: single start range, all species, (Intercept)",table_corollary4_sensitivity.csv
+c4orig_se_Intercept,0.00712752464886397,0.0071,"its standard error, original: single start range, all species, (Intercept)",table_corollary4_sensitivity.csv
+c4orig_spatialTRUE,0.0257788789598703,0.026,"Corollary 4 coefficient, original: single start range, all species, spatialTRUE",table_corollary4_sensitivity.csv
+c4orig_se_spatialTRUE,0.000556834912643575,0.0006,"its standard error, original: single start range, all species, spatialTRUE",table_corollary4_sensitivity.csv
+c4orig_log1psepscaled,0.0319779166777516,0.032,"Corollary 4 coefficient, original: single start range, all species, log1p(sep_scaled)",table_corollary4_sensitivity.csv
+c4orig_se_log1psepscaled,0.00112720803241981,0.0011,"its standard error, original: single start range, all species, log1p(sep_scaled)",table_corollary4_sensitivity.csv
+c4orig_covshift,0.00852141090377297,0.009,"Corollary 4 coefficient, original: single start range, all species, cov_shift",table_corollary4_sensitivity.csv
+c4orig_se_covshift,0.000414216006297116,0.0004,"its standard error, original: single start range, all species, cov_shift",table_corollary4_sensitivity.csv
+c4orig_log10n,0.00687928505599556,0.007,"Corollary 4 coefficient, original: single start range, all species, log10n",table_corollary4_sensitivity.csv
+c4orig_se_log10n,0.0016044476489944,0.0016,"its standard error, original: single start range, all species, log10n",table_corollary4_sensitivity.csv
+c4orig_spatialTRUElog1psepscaled,0.0366478786624953,0.037,"Corollary 4 coefficient, original: single start range, all species, spatialTRUE:log1p(sep_scaled)",table_corollary4_sensitivity.csv
+c4orig_se_spatialTRUElog1psepscaled,0.000971492456702856,0.0010,"its standard error, original: single start range, all species, spatialTRUE:log1p(sep_scaled)",table_corollary4_sensitivity.csv
+c4orig_spatialTRUEcovshift,0.0115411431195234,0.012,"Corollary 4 coefficient, original: single start range, all species, spatialTRUE:cov_shift",table_corollary4_sensitivity.csv
+c4orig_se_spatialTRUEcovshift,0.000484229354998969,0.0005,"its standard error, original: single start range, all species, spatialTRUE:cov_shift",table_corollary4_sensitivity.csv
+c4km_Intercept,-0.000999559078668905,-0.001,"Corollary 4 coefficient, separation per 100 km, all species, (Intercept)",table_corollary4_sensitivity.csv
+c4km_se_Intercept,0.00573003681564475,0.0057,"its standard error, separation per 100 km, all species, (Intercept)",table_corollary4_sensitivity.csv
+c4km_spatialTRUE,0.0085966649009441,0.009,"Corollary 4 coefficient, separation per 100 km, all species, spatialTRUE",table_corollary4_sensitivity.csv
+c4km_se_spatialTRUE,0.000628039229955423,0.0006,"its standard error, separation per 100 km, all species, spatialTRUE",table_corollary4_sensitivity.csv
+c4km_log1psepscaled,0.010614392773886,0.011,"Corollary 4 coefficient, separation per 100 km, all species, log1p(sep_scaled)",table_corollary4_sensitivity.csv
+c4km_se_log1psepscaled,0.000637243236082882,0.0006,"its standard error, separation per 100 km, all species, log1p(sep_scaled)",table_corollary4_sensitivity.csv
+c4km_covshift,0.00957307811369713,0.010,"Corollary 4 coefficient, separation per 100 km, all species, cov_shift",table_corollary4_sensitivity.csv
+c4km_se_covshift,0.00041790819255056,0.0004,"its standard error, separation per 100 km, all species, cov_shift",table_corollary4_sensitivity.csv
+c4km_log10n,0.00862545149520235,0.009,"Corollary 4 coefficient, separation per 100 km, all species, log10n",table_corollary4_sensitivity.csv
+c4km_se_log10n,0.00137128424525556,0.0014,"its standard error, separation per 100 km, all species, log10n",table_corollary4_sensitivity.csv
+c4km_spatialTRUElog1psepscaled,0.0470122973211691,0.047,"Corollary 4 coefficient, separation per 100 km, all species, spatialTRUE:log1p(sep_scaled)",table_corollary4_sensitivity.csv
+c4km_se_spatialTRUElog1psepscaled,0.000677487138609128,0.0007,"its standard error, separation per 100 km, all species, spatialTRUE:log1p(sep_scaled)",table_corollary4_sensitivity.csv
+c4km_spatialTRUEcovshift,0.00589643180612138,0.006,"Corollary 4 coefficient, separation per 100 km, all species, spatialTRUE:cov_shift",table_corollary4_sensitivity.csv
+c4km_se_spatialTRUEcovshift,0.000491248505653224,0.0005,"its standard error, separation per 100 km, all species, spatialTRUE:cov_shift",table_corollary4_sensitivity.csv
+range_regime_identified,25,25,species whose residual variogram regime is identified,practical_range.csv
+range_regime_nostructure,19,19,species whose residual variogram regime is no structure,practical_range.csv
+range_regime_belowlags,8,8,species whose residual variogram regime is below lags,practical_range.csv
+range_regime_nosill,8,8,species whose residual variogram regime is no sill,practical_range.csv
+range_not_identified,35,35,species whose residual variogram does not identify a range,practical_range.csv
+range_identified_median,230.552668798694,231,median identified practical range (km),practical_range.csv
+range_identified_min,42.9897804423718,43,smallest identified practical range (km),practical_range.csv
+range_identified_max,1088.11645455573,"1,088",largest identified practical range (km),practical_range.csv
+sep_draws,82615,"82,615",marginal draws with a recorded block separation,table_block_separation.csv
+sep_median_km,77.175765183337,77,median separation of the block from its training locations (km),table_block_separation.csv
+sep_draws_identified,35947,"35,947",marginal draws of species with an identified residual range,table_block_separation.csv
+sep_scaled_median_identified,0.298826319656288,0.30,median separation in identified practical ranges,table_block_separation.csv
+sep_share_beyond_identified,0.190864328038501,19%,share of those draws with the block one practical range or more away,table_block_separation.csv
+matern32_corr_at_range,0.735758882342885,0.74,"Matern (nu = 3/2) correlation at a distance equal to its range parameter, (1 + 1) exp(-1)",analytic
+fill_coef,-0.00358847801366541,-0.0036,marginal AUC per doubling of fill distance,table_fill_distance_model.csv
+fill_se,0.00840333068691804,0.0084,its standard error,table_fill_distance_model.csv
 corollary2_limit,0.000921503618212963,0.0009,N^(-1/2) for the converged fit count,fit_metrics.rds

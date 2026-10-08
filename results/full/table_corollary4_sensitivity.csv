@@ -1,0 +1,15 @@
+specification,term,estimate,se,n_fits,n_species
+"original: single start range, all species",(Intercept),0.00290453142727837,0.00712752464886397,565565,60
+"original: single start range, all species",spatialTRUE,0.0257788789598703,0.000556834912643575,565565,60
+"original: single start range, all species",log1p(sep_scaled),0.0319779166777516,0.00112720803241981,565565,60
+"original: single start range, all species",cov_shift,0.00852141090377297,0.000414216006297116,565565,60
+"original: single start range, all species",log10n,0.00687928505599556,0.0016044476489944,565565,60
+"original: single start range, all species",spatialTRUE:log1p(sep_scaled),0.0366478786624953,0.000971492456702856,565565,60
+"original: single start range, all species",spatialTRUE:cov_shift,0.0115411431195234,0.000484229354998969,565565,60
+"separation per 100 km, all species",(Intercept),-0.000999559078668905,0.00573003681564475,565565,60
+"separation per 100 km, all species",spatialTRUE,0.0085966649009441,0.000628039229955423,565565,60
+"separation per 100 km, all species",log1p(sep_scaled),0.010614392773886,0.000637243236082882,565565,60
+"separation per 100 km, all species",cov_shift,0.00957307811369713,0.00041790819255056,565565,60
+"separation per 100 km, all species",log10n,0.00862545149520235,0.00137128424525556,565565,60
+"separation per 100 km, all species",spatialTRUE:log1p(sep_scaled),0.0470122973211691,0.000677487138609128,565565,60
+"separation per 100 km, all species",spatialTRUE:cov_shift,0.00589643180612138,0.000491248505653224,565565,60
